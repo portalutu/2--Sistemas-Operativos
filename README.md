@@ -1,6 +1,6 @@
 # Repositorio de Sistemas Operativos
 
-Este repositorio reúne material introductorio sobre sistemas operativos para uso educativo. Actualmente contiene un documento base en formato Markdown orientado a clases, estudio y apoyo teórico.
+Este repositorio reúne material de apoyo para el curso de Sistemas Operativos de 2º EMT.
 
 ## Objetivo
 
