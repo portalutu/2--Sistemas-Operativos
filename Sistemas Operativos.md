@@ -344,6 +344,103 @@ Esto permite:
 
 ---
 
+## Usuarios, root y sudo en Linux
+
+En Linux no todos los usuarios tienen el mismo nivel de acceso.
+
+Normalmente se trabaja con un **usuario común**, que puede utilizar programas, crear archivos y trabajar en su espacio personal.
+
+Existe también un usuario especial llamado **root**.
+
+El usuario `root` es el administrador del sistema y tiene control total sobre la computadora.
+
+Puede, por ejemplo:
+
+* instalar programas
+* crear y eliminar usuarios
+* modificar configuraciones del sistema
+* acceder a archivos protegidos
+
+Por esa razón, no se recomienda trabajar siempre como `root`, ya que un error puede afectar todo el sistema.
+
+### Uso de sudo
+
+Para ejecutar una tarea administrativa sin iniciar sesión como `root`, en muchos sistemas Linux se utiliza el comando `sudo`.
+
+`sudo` significa aproximadamente "superuser do".
+
+Permite ejecutar un comando con privilegios de administrador.
+
+Ejemplo:
+
+```bash
+sudo apt update
+```
+
+En este caso, un usuario común ejecuta una tarea administrativa de manera controlada.
+
+Otro ejemplo:
+
+```bash
+sudo systemctl restart ssh
+```
+
+Aquí se reinicia un servicio del sistema, acción que normalmente requiere permisos elevados.
+
+### Ejemplos de administración de usuarios
+
+Para crear un usuario nuevo, puede utilizarse:
+
+```bash
+sudo useradd -m juan
+```
+
+Este comando crea el usuario `juan` y genera su directorio personal.
+
+En muchos sistemas también es común utilizar:
+
+```bash
+sudo adduser juan
+```
+
+Este comando suele guiar el proceso paso a paso y pedir información adicional.
+
+Para cambiar la contraseña de un usuario:
+
+```bash
+sudo passwd juan
+```
+
+El sistema solicitará ingresar y confirmar la nueva contraseña.
+
+Si un usuario quiere cambiar su propia contraseña, puede usar:
+
+```bash
+passwd
+```
+
+Para eliminar un usuario:
+
+```bash
+sudo userdel juan
+```
+
+Si además se desea eliminar su directorio personal:
+
+```bash
+sudo userdel -r juan
+```
+
+### Resumen práctico
+
+* un usuario común trabaja con permisos limitados
+* `root` tiene control total del sistema
+* `sudo` permite ejecutar tareas administrativas de forma puntual
+
+Este modelo ayuda a mejorar la seguridad y evita cambios accidentales en partes críticas del sistema.
+
+---
+
 ## Sistema de archivos
 
 El sistema de archivos define cómo se almacenan, organizan y recuperan los datos en los dispositivos de almacenamiento, como discos duros o unidades SSD.
@@ -419,6 +516,179 @@ Ejemplos:
 | APFS    | macOS                                |
 
 Cada sistema de archivos tiene diferentes características de rendimiento, seguridad y capacidad.
+
+### Cómo guarda la información un sistema de archivos
+
+Cuando un archivo se guarda en un disco, el sistema operativo no lo coloca "todo junto" de manera arbitraria.
+
+El sistema de archivos divide el espacio en unidades y registra en qué parte del disco se encuentra cada archivo.
+
+De esta forma, cuando el usuario abre un documento, una imagen o un programa, el sistema operativo puede localizarlo correctamente.
+
+Ejemplo conceptual:
+
+```
+Archivo: tarea.docx
+Bloque 1 → sector del disco A
+Bloque 2 → sector del disco B
+Bloque 3 → sector del disco C
+```
+
+Aunque para el usuario aparece como un único archivo, internamente puede estar distribuido en distintos bloques del disco.
+
+### Formateo
+
+Antes de utilizar una partición o una unidad de almacenamiento, normalmente es necesario **formatearla**.
+
+Formatear significa preparar ese espacio para trabajar con un sistema de archivos específico.
+
+Por ejemplo:
+
+* un pendrive puede formatearse en FAT32 o exFAT
+* una partición de Linux puede formatearse en ext4
+* una partición de Windows puede formatearse en NTFS
+
+Sin este proceso, el sistema operativo no tendría una estructura clara para guardar carpetas, archivos y metadatos.
+
+### Particionamiento de discos
+
+Un disco puede dividirse en varias partes lógicas llamadas **particiones**.
+
+Cada partición funciona como si fuera una unidad independiente.
+
+Esto permite:
+
+* separar datos del sistema operativo
+* instalar más de un sistema operativo en el mismo disco
+* organizar mejor la información
+* aplicar distintos sistemas de archivos según la necesidad
+
+Ejemplo:
+
+Un disco de 1 TB podría dividirse así:
+
+* Partición 1: 200 GB para Windows
+* Partición 2: 300 GB para Linux
+* Partición 3: 500 GB para archivos personales
+
+En ese caso, cada partición puede tener su propio sistema de archivos.
+
+Por ejemplo:
+
+* la partición de Windows en NTFS
+* la partición de Linux en ext4
+* la partición de intercambio o datos en otro formato según el uso
+
+### Ejemplo de particionamiento en la práctica
+
+En una instalación típica de Linux pueden aparecer particiones como estas:
+
+```
+/dev/sda1   EFI
+/dev/sda2   /
+/dev/sda3   /home
+/dev/sda4   swap
+```
+
+Interpretación:
+
+* `EFI` almacena archivos necesarios para el arranque
+* `/` contiene el sistema principal
+* `/home` guarda los archivos de los usuarios
+* `swap` se utiliza como apoyo de memoria virtual
+
+Esta separación tiene ventajas importantes.
+
+Por ejemplo, si se reinstala el sistema operativo, muchas veces es posible conservar la partición `/home` y mantener los archivos personales.
+
+### Comandos de ejemplo para particionar y formatear
+
+En Linux existen herramientas de línea de comandos que permiten crear particiones y preparar sistemas de archivos.
+
+Algunos ejemplos comunes son:
+
+```bash
+sudo fdisk /dev/sda
+```
+
+Este comando permite administrar las particiones de un disco.
+
+Dentro de `fdisk` pueden utilizarse opciones como:
+
+* `n` para crear una nueva partición
+* `d` para eliminar una partición
+* `p` para mostrar la tabla de particiones
+* `w` para guardar los cambios
+
+Luego de crear una partición, puede formatearse con comandos como estos:
+
+```bash
+sudo mkfs.ext4 /dev/sda2
+sudo mkfs.ext4 /dev/sda3
+sudo mkswap /dev/sda4
+```
+
+En este ejemplo:
+
+* `/dev/sda2` se prepara con sistema de archivos `ext4`
+* `/dev/sda3` también se prepara con `ext4`
+* `/dev/sda4` se configura como área de intercambio `swap`
+
+Para comprobar el resultado, puede utilizarse:
+
+```bash
+lsblk
+sudo fdisk -l
+```
+
+Estos comandos muestran los discos, sus particiones y, en muchos casos, el tipo de sistema de archivos detectado.
+
+### Relación entre partición y sistema de archivos
+
+Es importante no confundir estos dos conceptos:
+
+* la **partición** es una división lógica del disco
+* el **sistema de archivos** es la forma en que se organiza la información dentro de esa partición
+
+Ejemplo sencillo:
+
+* disco físico: un SSD de 500 GB
+* particiones: dos partes de 250 GB
+* sistema de archivos: una en NTFS y otra en ext4
+
+Es decir, primero puede particionarse el disco y luego formatearse cada partición con el sistema de archivos que corresponda.
+
+### Ejemplos practicos:
+
+Caso 1:
+
+Una computadora de laboratorio tiene Windows instalado y se agrega Linux para prácticas.
+
+En ese escenario:
+
+* una partición puede quedar para Windows
+* otra partición para Linux
+* otra para compartir archivos entre ambos sistemas
+
+Caso 2:
+
+Un usuario utiliza un pendrive para llevar trabajos entre distintas computadoras.
+
+Si necesita compatibilidad con muchos equipos, puede resultar conveniente usar FAT32 o exFAT.
+
+Caso 3:
+
+En un servidor, puede separarse el sistema operativo de los datos de los usuarios para facilitar la administración y las copias de seguridad.
+
+### Resumen conceptual
+
+Un disco almacena información físicamente.
+
+Las particiones permiten dividir ese disco en áreas lógicas.
+
+El sistema de archivos organiza cómo se guardan y recuperan los datos dentro de cada partición.
+
+Gracias a esto, el sistema operativo puede crear carpetas, guardar archivos, controlar permisos y localizar la información cuando el usuario la necesita.
 
 ### Permisos de archivos
 

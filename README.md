@@ -1,11 +1,13 @@
 # Repositorio de Sistemas Operativos
 
-Este repositorio reúne material de apoyo para el curso de Sistemas Operativos de 2º EMT.
+Este repositorio reúne materiales de apoyo para la asignatura Sistemas Operativos de 2º EMT.
 
-## Objetivo
+## Propósito
 
-El contenido busca presentar de forma clara los conceptos fundamentales de sistemas operativos, su evolución histórica y los componentes principales que intervienen en su funcionamiento.
+El contenido está orientado a introducir los conceptos fundamentales de los sistemas operativos, su evolución histórica, la arquitectura básica de un sistema y el uso inicial de herramientas de trabajo en entornos GNU/Linux.
 
 ## Contenido del repositorio
 
-- `Sistemas Operativos.md`: documento principal con material teórico introductorio sobre sistemas operativos.
+- `Sistemas Operativos.md`: material teórico introductorio sobre historia, conceptos fundamentales, Unix, Linux, software libre, kernel y gestión de procesos.
+- `actividad_clase1.md`: propuesta de actividades de investigación y exposición para trabajar en equipos, con consignas, preguntas guía y competencias asociadas.
+- `práctica1.md`: práctica inicial de terminal de Linux con comandos básicos de navegación, exploración del sistema, manipulación de archivos y observación de procesos.
