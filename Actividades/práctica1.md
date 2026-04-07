@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-En esta práctica los estudiantes utilizarán la terminal de Linux para:
+En esta práctica utilizarán la terminal de Linux para:
 
 - moverse entre carpetas
 - listar archivos y directorios
