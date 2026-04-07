@@ -7,7 +7,7 @@
 **Solo con fines didácticos**
 
 Diego Vera  
-(SA/SMC/ISE)
+(SA/SMC/PMP)
 
 ---
 
