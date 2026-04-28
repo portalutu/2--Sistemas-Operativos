@@ -1,9 +1,4 @@
-# Guía de estudio: VirtualBox, configuración de máquinas virtuales y uso por CLI
-
-**Curso:** Sistemas Operativos / Redes / Soporte IT / Administración de Sistemas Operativos  
-**Nivel:** Bachillerato Técnico-Tecnológico - DGETP-UTU  
-**Modalidad:** Material de apoyo para laboratorio  
-**Uso sugerido:** Consulta previa y durante prácticas de virtualización  
+# VirtualBox, configuración de máquinas virtuales y uso por CLI
 
 ---
 
