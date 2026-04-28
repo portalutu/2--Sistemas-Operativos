@@ -37,7 +37,7 @@ Al finalizar la tarea, cada equipo deberá ser capaz de:
 
 ## 4. Selección de la distribución
 
-Cada equipo deberá elegir una distribución GNU/Linux desde DistroWatch.
+Cada equipo deberá elegir una distribución GNU/Linux desde DistroWatch (https://distrowatch.com/).
 
 Pueden elegir distribuciones conocidas, livianas, especializadas, educativas, de seguridad, de escritorio, para servidores o pensadas para equipos antiguos.
 
@@ -97,9 +97,9 @@ Cada equipo deberá descargar la imagen ISO oficial de la distribución e instal
 
 La instalación podrá realizarse en:
 
-- Máquina virtual con VirtualBox.
-- Máquina virtual con VMware.
-- Live USB, solo si además se demuestra uso real del sistema y no únicamente arranque en modo live.
+- Máquina virtual con VirtualBox (https://www.virtualbox.org/wiki/Downloads).
+- Máquina virtual con VMware (https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion).
+- Live USB, solo si además se demuestra uso real del sistema y no únicamente arranque en modo live (distros live e inmutables).
 
 El equipo deberá registrar evidencias propias del proceso.
 
@@ -134,13 +134,13 @@ whoami
 ip a
 ```
 
-No es necesario usar todos, pero sí deben demostrar que el sistema fue instalado y probado por el equipo.
+No es necesario usar todos, pero sí algunos de ellos para demostrar que el sistema fue instalado y probado por el equipo.
 
 ---
 
 ## 7. Uso permitido de inteligencia artificial
 
-Los estudiantes podrán usar herramientas de inteligencia artificial para apoyar la investigación, pero no para hacer el trabajo completo.
+Podrán usar herramientas de inteligencia artificial para apoyar la investigación, pero no para hacer el trabajo completo.
 
 ### Usos permitidos
 
@@ -210,7 +210,7 @@ Incluir:
 
 - Nombre de la distribución.
 - País u origen del proyecto, si corresponde.
-- Distribución base, si tiene una.
+- Distribución base, si tiene una (ej. Ubuntu deriva de Debian).
 - Tipo de usuario al que apunta.
 - Entorno de escritorio utilizado.
 - Gestor de paquetes.
@@ -235,7 +235,7 @@ Describir las características más importantes de la distribución:
 
 ## 5. Requerimientos técnicos
 
-Indicar los requisitos mínimos y recomendados, por ejemplo:
+Indicar los requisitos mínimos y recomendados por el fabricante, por ejemplo:
 
 - Procesador.
 - Memoria RAM.
@@ -311,7 +311,7 @@ Ejemplos:
 
 ## 10. Comparación con otra distribución
 
-Comparar brevemente la distribución elegida con otra distribución conocida, por ejemplo Ubuntu, Debian, Linux Mint, Fedora o Windows si el docente lo permite como referencia de usuario final.
+Comparar brevemente la distribución elegida con otra distribución conocida, por ejemplo Ubuntu, Debian, Linux Mint, Fedora o Windows como referencia de usuario final.
 
 La comparación debe incluir al menos 5 criterios:
 
@@ -373,7 +373,7 @@ Cada equipo deberá realizar una presentación frente al grupo.
 
 ### Duración sugerida
 
-Entre **8 y 12 minutos** por equipo.
+Aproximadamente **20 minutos** por equipo.
 
 ### Contenido mínimo de la presentación
 
@@ -434,7 +434,7 @@ La presentación deberá incluir:
 
 El equipo deberá entregar:
 
-1. Informe en PDF o documento digital indicado por el docente.
+1. Informe en PDF.
 2. Presentación en formato digital.
 3. Capturas propias incluidas en el informe.
 4. Enlace o archivo con las fuentes consultadas, si el docente lo solicita.
