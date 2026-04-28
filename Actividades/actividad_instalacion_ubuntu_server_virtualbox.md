@@ -1,11 +1,4 @@
 # Actividad práctica: Instalación y configuración de Ubuntu Server en VirtualBox
-
-**Curso:** Sistemas Operativos / Redes / Administración de Sistemas Operativos  
-**Nivel:** Bachillerato Técnico-Tecnológico - DGETP-UTU  
-**Modalidad:** Actividad práctica de laboratorio  
-**Duración estimada:** 2 a 3 clases, según ritmo del grupo  
-**Trabajo:** Individual o en duplas  
-
 ---
 
 ## 1. Objetivos de aprendizaje
