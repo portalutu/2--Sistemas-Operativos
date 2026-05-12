@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sistemas Operativos 2º EMT — Comandos Linux Interactivos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0c10;--bg2:#0f1218;--bg3:#151a22;--bg4:#1b2230;--border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);--text:#e8eaf0;--text2:#8b9ab5;--text3:#566378;--mono:'JetBrains Mono',monospace;--sans:'Space Grotesk',sans-serif;--blue:#4da8ff;--teal:#2dd4bf;--amber:#f59e0b;--purple:#a78bfa;--coral:#fb7185;--green:#4ade80;--blue-bg:rgba(77,168,255,.08);--teal-bg:rgba(45,212,191,.08);--amber-bg:rgba(245,158,11,.08);--purple-bg:rgba(167,139,250,.08);--coral-bg:rgba(251,113,133,.08);--green-bg:rgba(74,222,128,.08)}
+html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;overflow-x:hidden}body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(45,212,191,.032) 1px,transparent 1px),linear-gradient(90deg,rgba(45,212,191,.032) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}body::after{content:'';position:fixed;right:-20vw;bottom:-30vh;width:55vw;height:55vw;background:radial-gradient(circle,rgba(45,212,191,.11),transparent 62%);pointer-events:none;z-index:0}
+nav{position:sticky;top:0;z-index:10;height:56px;padding:0 2rem;background:rgba(10,12,16,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;gap:2rem;align-items:center}.nav-logo{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--teal);text-decoration:none;white-space:nowrap}.nav-links{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}.nav-links::-webkit-scrollbar{display:none}.nav-link{font-size:12px;color:var(--text3);text-decoration:none;padding:4px 10px;border-radius:6px;white-space:nowrap;transition:.2s}.nav-link:hover,.nav-link.active{color:var(--teal);background:var(--teal-bg)}
+.hero{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:5rem 2rem 4rem}.hero-tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--teal);background:var(--teal-bg);border:1px solid rgba(45,212,191,.2);border-radius:20px;padding:4px 12px;margin-bottom:1.5rem}.hero-tag::before{content:'';width:6px;height:6px;background:var(--teal);border-radius:50%;animation:pulse 2s ease-in-out infinite}@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}h1{font-size:clamp(2.2rem,5vw,3.8rem);font-weight:700;line-height:1.08;letter-spacing:-.02em;color:#fff;margin-bottom:1rem}h1 span{color:var(--teal)}.hero-sub{font-size:1.05rem;color:var(--text2);max-width:720px}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:1.4rem}.btn{font-family:var(--sans);font-size:13px;font-weight:600;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);border-radius:10px;padding:8px 14px;cursor:pointer;transition:.2s;text-decoration:none}.btn:hover{transform:translateY(-2px);color:#fff}.btn.primary{color:var(--teal);background:var(--teal-bg);border-color:rgba(45,212,191,.28)}
+main{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 2rem 6rem;display:flex;flex-direction:column;gap:2rem}.card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;animation:fadeUp .5s ease both}.card:hover{border-color:var(--border2)}@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.card-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--bg3)}.card-num{font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}.num-blue{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(77,168,255,.25)}.num-teal{background:var(--teal-bg);color:var(--teal);border:1px solid rgba(45,212,191,.25)}.num-amber{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(245,158,11,.25)}.num-purple{background:var(--purple-bg);color:var(--purple);border:1px solid rgba(167,139,250,.25)}.num-coral{background:var(--coral-bg);color:var(--coral);border:1px solid rgba(251,113,133,.25)}.num-green{background:var(--green-bg);color:var(--green);border:1px solid rgba(74,222,128,.25)}.card-title{font-size:15px;font-weight:600;color:#fff}.card-body{padding:1.5rem}p{color:var(--text2)}strong{color:#fff}.grid{display:grid;gap:12px;margin-top:1.25rem}.grid-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}.grid-3{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}.grid-4{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}.info-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 16px;transition:.25s;cursor:pointer}.info-card:hover{border-color:rgba(45,212,191,.45);transform:translateY(-2px)}.info-card.active{border-color:rgba(45,212,191,.45);background:var(--teal-bg)}.info-label{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}.info-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:6px}.info-desc{font-size:12px;color:var(--text2)}.note-box{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1rem 1.15rem;margin-top:1.25rem}.note-title{font-family:var(--mono);font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px}.note-line{font-size:13px;color:var(--text2)}
+.map-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:1.25rem}.map-card{position:relative;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;transition:.2s;cursor:pointer;overflow:hidden}.map-card::after{content:'';position:absolute;inset:auto -30% -70% auto;width:120px;height:120px;background:radial-gradient(circle,rgba(45,212,191,.12),transparent 60%)}.map-card:hover{border-color:rgba(45,212,191,.35);transform:translateY(-2px)}.map-num{font-family:var(--mono);font-size:11px;color:var(--teal)}.map-title{font-weight:700;color:#fff;margin-top:4px}.map-desc{font-size:12px;color:var(--text2);margin-top:4px}
+.terminal{background:#06080b;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:1.25rem;box-shadow:0 16px 40px rgba(0,0,0,.25)}.term-head{height:38px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;padding:0 12px}.dot{width:10px;height:10px;border-radius:50%}.dot.red{background:var(--coral)}.dot.yellow{background:var(--amber)}.dot.green{background:var(--green)}.term-title{margin-left:8px;font-family:var(--mono);font-size:11px;color:var(--text3)}.term-body{padding:14px;font-family:var(--mono);font-size:12px;color:#dbeafe;min-height:230px;max-height:390px;overflow:auto}.term-line{white-space:pre-wrap;padding:2px 0}.prompt{color:var(--green)}.cmd{color:#fff}.out{color:var(--text2)}.err{color:var(--coral)}.term-input-row{display:flex;gap:8px;border-top:1px solid var(--border);padding:10px;background:#07090d}.term-input{flex:1;background:var(--bg2);border:1px solid var(--border2);border-radius:8px;color:#fff;font-family:var(--mono);font-size:12px;padding:8px}.term-input:focus{outline:none;border-color:rgba(45,212,191,.5)}.term-run{font-family:var(--mono);font-size:11px;background:var(--teal-bg);border:1px solid rgba(45,212,191,.25);color:var(--teal);border-radius:8px;padding:0 12px;cursor:pointer}.suggestions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.pill{font-family:var(--mono);font-size:10px;color:var(--text2);background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:4px 8px;cursor:pointer;transition:.2s}.pill:hover{color:var(--teal);background:var(--teal-bg);border-color:rgba(45,212,191,.25)}.terminal-command-groups{margin-top:14px;display:flex;flex-direction:column;gap:10px}.terminal-group{background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden}.terminal-group summary{cursor:pointer;list-style:none;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;color:#fff;font-weight:700;font-size:13px}.terminal-group summary::-webkit-details-marker{display:none}.terminal-group summary span{font-family:var(--mono);font-size:10px;color:var(--text3);font-weight:500}.terminal-group-body{border-top:1px solid var(--border);padding:10px 12px;display:flex;flex-wrap:wrap;gap:6px}.terminal-group .pill{background:#07090d}
+.explorer-head{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:1.25rem}.search{flex:1;min-width:220px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:#fff;font-family:var(--sans);padding:9px 12px}.search:focus{outline:none;border-color:rgba(45,212,191,.5)}.tabs{display:flex;flex-wrap:wrap;gap:8px}.tab-btn{font-family:var(--sans);font-size:12px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);border-radius:20px;padding:5px 12px;cursor:pointer;transition:.2s}.tab-btn:hover,.tab-btn.active{color:var(--teal);background:var(--teal-bg);border-color:rgba(45,212,191,.35)}.command-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-top:1.1rem}.command-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:12px;cursor:pointer;transition:.2s}.command-card:hover{border-color:rgba(45,212,191,.35);transform:translateY(-2px)}.command-card.selected{background:var(--teal-bg);border-color:rgba(45,212,191,.45)}.command-name{font-family:var(--mono);font-size:14px;color:var(--teal);font-weight:700}.command-cat{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}.command-desc{font-size:12px;color:var(--text2);margin-top:6px}.detail-panel{margin-top:1.25rem;background:var(--bg3);border:1px solid var(--border);border-radius:14px;overflow:hidden}.detail-top{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:10px;align-items:center}.detail-title{font-family:var(--mono);font-size:15px;color:#fff;font-weight:700}.detail-body{padding:14px}.code-card{background:#07090c;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:10px}.code-head{display:flex;justify-content:space-between;align-items:center;background:var(--bg4);border-bottom:1px solid var(--border);padding:8px 12px}.code-title{font-family:var(--mono);font-size:11px;color:var(--text3);text-transform:uppercase}.copy-btn{font-family:var(--mono);font-size:10px;color:var(--text2);background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:3px 8px;cursor:pointer}.copy-btn:hover{color:#fff}pre{padding:14px;overflow-x:auto;color:#dbeafe;font-family:var(--mono);font-size:12px;line-height:1.6}.warn{margin-top:10px;padding:10px 12px;background:var(--amber-bg);border:1px solid rgba(245,158,11,.22);border-radius:10px;color:var(--text2);font-size:12px}.danger{background:var(--coral-bg);border-color:rgba(251,113,133,.22)}
+.fs-wrapper{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:1.25rem}.fs-tree{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:14px;font-family:var(--mono);font-size:13px}.fs-node{padding:5px 8px;border-radius:7px;cursor:pointer;color:var(--text2);transition:.15s}.fs-node:hover,.fs-node.active{background:var(--teal-bg);color:var(--teal)}.fs-info{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:16px}.fs-info h3{color:#fff;font-size:18px;margin-bottom:6px}.fs-info p{font-size:13px}.perm-box{display:grid;grid-template-columns:1fr .9fr;gap:14px;margin-top:1.25rem}.perm-panel{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:16px}.perm-row{display:grid;grid-template-columns:90px repeat(3,1fr);gap:8px;align-items:center;margin:10px 0}.perm-row label{font-size:13px;color:var(--text2)}.perm-check{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:7px;color:var(--text2);font-family:var(--mono);font-size:12px}.perm-check input{accent-color:var(--teal)}.perm-result{font-family:var(--mono);font-size:34px;font-weight:700;color:var(--teal)}.perm-symbolic{font-family:var(--mono);font-size:22px;color:#fff;margin-top:6px}.svg-box{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:1.25rem;overflow:hidden}svg{display:block;width:100%;height:auto}.filter-pill{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--teal);background:var(--teal-bg);border:1px solid rgba(45,212,191,.2);border-radius:20px;padding:3px 8px;margin:2px 3px 2px 0}.lab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:1.25rem}.lab-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px}.lab-card h4{font-size:14px;color:#fff;margin-bottom:6px}.lab-card p{font-size:12px;color:var(--text2);margin-bottom:8px}footer{position:relative;z-index:1;text-align:center;padding:2rem;font-size:12px;color:var(--text3);border-top:1px solid var(--border);font-family:var(--mono)}@media(max-width:780px){nav{padding:0 1rem;gap:1rem}.hero{padding:3rem 1rem 2.5rem}main{padding:0 1rem 4rem}.fs-wrapper,.perm-box{grid-template-columns:1fr}.card-body{padding:1rem}.term-input-row{flex-direction:column}.perm-row{grid-template-columns:1fr repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<nav><a class="nav-logo" href="#">LINUX://2EMT</a><div class="nav-links"><a class="nav-link" href="#s1">Objetivo</a><a class="nav-link" href="#s2">Mapa</a><a class="nav-link" href="#s3">Terminal</a><a class="nav-link" href="#s4">Comandos</a><a class="nav-link" href="#s5">Directorios</a><a class="nav-link" href="#s6">Permisos</a><a class="nav-link" href="#s7">Procesos</a><a class="nav-link" href="#s8">Red</a><a class="nav-link" href="#s9">Editores</a><a class="nav-link" href="#s10">Prácticas</a></div></nav>
+<section class="hero"><div class="hero-tag">Sistemas Operativos · 2º EMT · GNU/Linux</div><h1>Comandos de <span>Linux</span><br>explicados de forma interactiva</h1><div class="hero-actions"><a class="btn primary" href="#s3">Abrir terminal simulada</a><a class="btn" href="#s4">Explorar comandos</a><a class="btn" href="#s10">Ir a actividades</a></div></section>
+<main>
+<div class="card" id="s1"><div class="card-header"><span class="card-num num-teal">01</span><span class="card-title">Propósito de la clase</span></div><div class="card-body"><p>La terminal permite administrar un sistema Linux con precisión. En lugar de memorizar comandos sueltos, conviene entender <strong>qué problema resuelve cada comando</strong>, qué información devuelve y cuándo conviene usarlo.</p><div class="grid grid-4"><div class="info-card"><div class="info-label">Diagnóstico</div><div class="info-title">¿Qué tiene el equipo?</div><div class="info-desc">uname, os-release, free, df, uptime.</div></div><div class="info-card"><div class="info-label">Operación</div><div class="info-title">¿Dónde estoy?</div><div class="info-desc">pwd, ls, cd, cat, less, tail.</div></div><div class="info-card"><div class="info-label">Administración</div><div class="info-title">¿Qué está pasando?</div><div class="info-desc">ps, top, journalctl, dmesg, lsof.</div></div><div class="info-card"><div class="info-label">Red</div><div class="info-title">¿Tengo conectividad?</div><div class="info-desc">ip, ping, dig, ss, tcpdump.</div></div></div></div></div>
+<div class="card" id="s2"><div class="card-header"><span class="card-num num-blue">02</span><span class="card-title">Mapa de familias de comandos</span></div><div class="card-body"><p>Los comandos del archivo se organizan por tipo de tarea. Hacé clic en una familia para filtrar el explorador.</p><div class="map-grid" id="map-grid"></div></div></div>
+<div class="card" id="s3"><div class="card-header"><span class="card-num num-green">03</span><span class="card-title">Terminal simulada</span></div><div class="card-body"><p>Escribí o seleccioná comandos para observar salidas simuladas. No ejecuta comandos reales: está pensada para practicar lectura e interpretación.</p><div class="terminal"><div class="term-head"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="term-title">sysadmin@lab-utu:~</span></div><div class="term-body" id="terminal-output"><div class="term-line out">Bienvenido/a al laboratorio de comandos Linux.</div><div class="term-line out">Probá: whoami, pwd, uname -r, df -h, free -h, ip a, ps -ef, journalctl -u ssh.</div></div><div class="term-input-row"><input class="term-input" id="terminal-input" placeholder="Escribí un comando, por ejemplo: ls -al" onkeydown="if(event.key==='Enter')runTerminal()"><button class="term-run" onclick="runTerminal()">ejecutar</button></div></div><div class="suggestions" id="suggestions"></div><div class="terminal-command-groups" id="terminal-command-groups"></div></div></div>
+<div class="card" id="s4"><div class="card-header"><span class="card-num num-purple">04</span><span class="card-title">Explorador interactivo de comandos</span></div><div class="card-body"><p>Buscá un comando o elegí una categoría. Cada tarjeta muestra función, ejemplo, salida esperada y advertencias de uso.</p><div class="explorer-head"><input class="search" id="cmd-search" placeholder="Buscar: ping, df, journalctl, chmod, grep..." oninput="renderCommands()"><div class="tabs" id="category-tabs"></div></div><div class="command-grid" id="command-grid"></div><div class="detail-panel" id="command-detail"><div class="detail-top"><div class="detail-title">Seleccioná un comando</div><button class="copy-btn" onclick="loadDetailCommand()">probar en terminal</button></div><div class="detail-body"><p>Al hacer clic en una tarjeta verás explicación, ejemplo y observaciones.</p></div></div></div></div>
+<div class="card" id="s5"><div class="card-header"><span class="card-num num-amber">05</span><span class="card-title">Árbol de directorios y navegación</span></div><div class="card-body"><p>Linux organiza el sistema desde una raíz única: <strong>/</strong>. La navegación con <strong>cd</strong>, <strong>pwd</strong> y <strong>ls</strong> solo tiene sentido si se comprende este árbol.</p><div class="fs-wrapper"><div class="fs-tree" id="fs-tree"></div><div class="fs-info" id="fs-info"></div></div></div></div>
+<div class="card" id="s6"><div class="card-header"><span class="card-num num-coral">06</span><span class="card-title">Permisos de archivos: chmod visual</span></div><div class="card-body"><p>Los permisos se dividen en usuario, grupo y otros. Cada permiso tiene valor numérico: lectura = 4, escritura = 2, ejecución = 1.</p><div class="perm-box"><div class="perm-panel"><div class="perm-row"><label></label><div class="perm-check">r</div><div class="perm-check">w</div><div class="perm-check">x</div></div><div id="perm-controls"></div></div><div class="perm-panel"><div class="note-title">Resultado chmod</div><div class="perm-result" id="perm-octal">755</div><div class="perm-symbolic" id="perm-symbolic">rwxr-xr-x</div><div class="code-card"><div class="code-head"><span class="code-title">ejemplo</span><button class="copy-btn" onclick="copyCode(this)">copiar</button></div><pre id="chmod-example">chmod 755 archivo</pre></div><div class="warn danger"><strong>Precaución:</strong> evitar usar chmod 777 sin justificación. Da acceso total a todos los usuarios.</div></div></div></div></div>
+<div class="card" id="s7"><div class="card-header"><span class="card-num num-blue">07</span><span class="card-title">Procesos y monitoreo</span></div><div class="card-body"><p>Un proceso es un programa en ejecución. Linux permite listarlos, observar consumo, enviarlos a segundo plano o finalizarlos.</p><div class="svg-box"><svg id="proc-svg" viewBox="0 0 860 270"></svg></div><div class="tabs"><button class="tab-btn active" onclick="setProcessMode('normal',this)">Proceso normal</button><button class="tab-btn" onclick="setProcessMode('kill',this)">kill</button><button class="tab-btn" onclick="setProcessMode('bgfg',this)">bg / fg</button></div><div class="grid grid-3"><div class="info-card" onclick="quickRun('ps -ef')"><div class="info-label">Listar</div><div class="info-title">ps -ef</div><div class="info-desc">Muestra todos los procesos.</div></div><div class="info-card" onclick="quickRun('top')"><div class="info-label">Monitorear</div><div class="info-title">top / htop</div><div class="info-desc">CPU, memoria y procesos activos.</div></div><div class="info-card" onclick="quickRun('kill 1234')"><div class="info-label">Finalizar</div><div class="info-title">kill PID</div><div class="info-desc">Envía una señal a un proceso.</div></div></div></div></div>
+<div class="card" id="s8"><div class="card-header"><span class="card-num num-teal">08</span><span class="card-title">Comandos de red y diagnóstico</span></div><div class="card-body"><p>Para diagnosticar red se sigue una secuencia: interfaz, IP, ruta, DNS, conectividad y puertos.</p><div class="svg-box"><svg id="net-svg" viewBox="0 0 860 290"></svg></div><div class="tabs"><button class="tab-btn active" onclick="drawNetwork('ip',this)">1 · IP</button><button class="tab-btn" onclick="drawNetwork('route',this)">2 · Ruta</button><button class="tab-btn" onclick="drawNetwork('dns',this)">3 · DNS</button><button class="tab-btn" onclick="drawNetwork('ports',this)">4 · Puertos</button><button class="tab-btn" onclick="drawNetwork('capture',this)">5 · Captura</button></div><div class="note-box" id="net-info"></div></div></div>
+<div class="card" id="s9"><div class="card-header"><span class="card-num num-purple">09</span><span class="card-title">Editores de texto: nano y vim</span></div><div class="card-body"><p>En administración Linux se editan archivos de configuración. Nano es más simple para empezar; Vim es más potente pero requiere modos.</p><div class="grid grid-2"><div class="info-card active"><div class="info-label">Nano</div><div class="info-title">Atajos esenciales</div><div class="info-desc"><span class="filter-pill">Ctrl+O guardar</span><span class="filter-pill">Ctrl+X salir</span><span class="filter-pill">Ctrl+W buscar</span><span class="filter-pill">Ctrl+K cortar</span><span class="filter-pill">Ctrl+U pegar</span></div></div><div class="info-card"><div class="info-label">Vim</div><div class="info-title">Comandos esenciales</div><div class="info-desc"><span class="filter-pill">i insertar</span><span class="filter-pill">Esc normal</span><span class="filter-pill">:w guardar</span><span class="filter-pill">:q salir</span><span class="filter-pill">dd borrar línea</span></div></div></div><div class="note-box"><div class="note-title">Recomendación para estudiantes</div><div class="note-line">Para una primera práctica, usar nano. Para comprender administración profesional, introducir Vim mostrando la diferencia entre modo normal, inserción y comandos.</div></div></div></div>
+<div class="card" id="s10"><div class="card-header"><span class="card-num num-green">10</span><span class="card-title">Actividades prácticas para laboratorio</span></div><div class="card-body"><p>Estas actividades obligan a combinar comandos y justificar resultados, no solo copiarlos.</p><div class="lab-grid" id="lab-grid"></div></div></div>
+</main><footer><span style="color:var(--teal)">LINUX://</span>COMANDOS · Sistemas Operativos 2º EMT · Terminal · Diagnóstico · Administración básica</footer>
+<script>
+const categories=[
+  ['sistema','Sistema','Información general del sistema operativo, kernel, tiempo activo y usuario.'],
+  ['logs','Logs','Registro, auditoría y mensajes del kernel o systemd.'],
+  ['hardware','Hardware','CPU, memoria, buses, discos y salud básica.'],
+  ['rendimiento','Rendimiento','Procesos, memoria, E/S, tráfico y archivos abiertos.'],
+  ['usuarios','Usuarios','Identidad, sesiones, grupos y cuentas.'],
+  ['almacenamiento','Almacenamiento','Espacio, inodos, particiones y uso de disco.'],
+  ['archivos','Archivos','Crear, copiar, mover, eliminar, leer y seguir archivos.'],
+  ['busqueda','Búsqueda','Localizar archivos o texto dentro de archivos.'],
+  ['permisos','Permisos','Lectura, escritura, ejecución y chmod.'],
+  ['procesos','Procesos','Listar, monitorear y finalizar procesos.'],
+  ['red','Red','Interfaces, rutas, DNS, conectividad, puertos y captura.'],
+  ['editores','Editores','Nano y Vim para archivos de configuración.']
+];
+
+const commands=[
+  {c:'sistema',cmd:'uname -a',d:'Muestra información completa del sistema y kernel.',e:'uname -a',o:`Linux lab-utu 6.5.0-generic #1 SMP x86_64 GNU/Linux`,n:'Útil para reportes técnicos.'},
+  {c:'sistema',cmd:'uname -r',d:'Muestra solo la versión del kernel.',e:'uname -r',o:`6.5.0-27-generic`,n:'Ayuda a verificar compatibilidad de drivers.'},
+  {c:'sistema',cmd:'cat /etc/os-release',d:'Muestra distribución y versión instalada.',e:'cat /etc/os-release',o:`PRETTY_NAME="Ubuntu 24.04 LTS"
+ID=ubuntu`,n:'Primer comando para identificar el sistema.'},
+  {c:'sistema',cmd:'uptime',d:'Indica tiempo encendido y carga promedio.',e:'uptime',o:`10:42:19 up 3 days,  2:11, 2 users, load average: 0.18, 0.24, 0.20`,n:'Carga alta sostenida puede indicar problema.'},
+  {c:'sistema',cmd:'hostname',d:'Muestra el nombre del equipo.',e:'hostname',o:`lab-utu`,n:'Sirve para identificar hosts en red.'},
+  {c:'sistema',cmd:'hostname -I',d:'Muestra direcciones IP locales.',e:'hostname -I',o:`192.168.1.45  fe80::a00:27ff:fe4e:66a1`,n:'No muestra necesariamente rutas ni DNS.'},
+  {c:'sistema',cmd:'last reboot',d:'Muestra historial de reinicios.',e:'last reboot',o:`reboot system boot 6.5.0 Mon May 12 08:10 still running`,n:'Permite detectar reinicios inesperados.'},
+  {c:'sistema',cmd:'date',d:'Muestra fecha y hora actual.',e:'date',o:`mar 12 may 2026 10:45:00 -03`,n:'Hora incorrecta afecta logs y certificados.'},
+  {c:'sistema',cmd:'cal',d:'Muestra calendario del mes.',e:'cal',o:`      Mayo 2026
+lu ma mi ju vi sa do
+             1  2  3
+ 4  5  6  7  8  9 10`,n:'Comando simple para práctica.'},
+  {c:'sistema',cmd:'w',d:'Muestra usuarios conectados y actividad.',e:'w',o:`USER TTY FROM LOGIN@ IDLE WHAT
+admin pts/0 192.168.1.10 10:21 0.00s w`,n:'Útil en servidores multiusuario.'},
+  {c:'sistema',cmd:'whoami',d:'Muestra el usuario actual.',e:'whoami',o:`sysadmin`,n:'Importante antes de ejecutar comandos administrativos.'},
+
+  {c:'logs',cmd:'dmesg',d:'Muestra mensajes del búfer circular del kernel.',e:'dmesg | tail',o:`[ 12.442] eth0: Link is Up
+[ 15.201] EXT4-fs: mounted filesystem`,n:'Puede requerir sudo.'},
+  {c:'logs',cmd:'journalctl',d:'Muestra registros almacenados en el journal de systemd.',e:'journalctl -n 20',o:`may 12 lab-utu systemd[1]: Started ssh.service.`,n:'Muy útil para investigar fallas.'},
+  {c:'logs',cmd:'journalctl -u nombre_del_servicio',d:'Filtra logs de un servicio específico.',e:'journalctl -u ssh',o:`Started OpenBSD Secure Shell server.`,n:'Reemplazar nombre_del_servicio por ssh, nginx, docker, etc.'},
+
+  {c:'hardware',cmd:'cat /proc/cpuinfo',d:'Muestra información detallada de CPU.',e:'cat /proc/cpuinfo | head',o:`processor : 0
+model name : Intel(R) Core(TM) i5`,n:'Archivo virtual del kernel.'},
+  {c:'hardware',cmd:'cat /proc/meminfo',d:'Muestra información detallada de memoria.',e:'cat /proc/meminfo | head',o:`MemTotal: 8048128 kB
+MemFree: 2451024 kB`,n:'Más detallado que free.'},
+  {c:'hardware',cmd:'free -h',d:'Muestra memoria usada y disponible en formato legible.',e:'free -h',o:`Mem: 7.7Gi total 2.1Gi used 4.8Gi free`,n:'Observar available, no solo free.'},
+  {c:'hardware',cmd:'lspci -tv',d:'Muestra dispositivos PCI en forma de árbol.',e:'lspci -tv',o:`+-00.0  Intel Host bridge
++-02.0  VGA compatible controller`,n:'Requiere paquete pciutils.'},
+  {c:'hardware',cmd:'lsusb -tv',d:'Muestra dispositivos USB en forma de árbol.',e:'lsusb -tv',o:`/: Bus 02.Port 1: Dev 1, Class=root_hub`,n:'Útil para pendrives, cámaras y adaptadores.'},
+  {c:'hardware',cmd:'dmidecode',d:'Muestra información DMI/SMBIOS desde BIOS.',e:'sudo dmidecode -t system',o:`Manufacturer: Dell Inc.
+Product Name: OptiPlex`,n:'Requiere permisos de administrador.'},
+  {c:'hardware',cmd:'hdparm -i /dev/sda',d:'Muestra datos del disco.',e:'sudo hdparm -i /dev/sda',o:`Model=Samsung SSD, SerialNo=...`,n:'Cuidado con el dispositivo correcto.'},
+  {c:'hardware',cmd:'hdparm -tT /dev/sda',d:'Prueba velocidad de lectura de disco.',e:'sudo hdparm -tT /dev/sda',o:`Timing buffered disk reads: 420 MB/sec`,n:'Puede variar según caché y carga.'},
+  {c:'hardware',cmd:'badblocks -s /dev/sda',d:'Busca bloques ilegibles.',e:'sudo badblocks -s /dev/sda',o:`Checking blocks 0 to 976762583`,n:'Puede demorar mucho. No improvisar en discos en uso.'},
+
+  {c:'rendimiento',cmd:'top',d:'Monitor interactivo de procesos.',e:'top',o:`PID USER PR NI VIRT RES %CPU %MEM COMMAND`,n:'Presionar q para salir.'},
+  {c:'rendimiento',cmd:'htop',d:'Monitor interactivo alternativo a top.',e:'htop',o:`CPU[||||] MEM[||||] Tasks: 92`,n:'Puede no estar instalado.'},
+  {c:'rendimiento',cmd:'mpstat 1',d:'Muestra estadísticas de CPU cada segundo.',e:'mpstat 1',o:`%usr %sys %idle
+2.10 0.80 96.20`,n:'Requiere paquete sysstat.'},
+  {c:'rendimiento',cmd:'vmstat 1',d:'Muestra memoria virtual y actividad del sistema.',e:'vmstat 1',o:`procs memory swap io system cpu`,n:'Útil para ver swap y espera de E/S.'},
+  {c:'rendimiento',cmd:'iostat 1',d:'Muestra estadísticas de entrada/salida.',e:'iostat 1',o:`Device tps kB_read/s kB_wrtn/s`,n:'Requiere sysstat.'},
+  {c:'rendimiento',cmd:'tail -100 /var/log/messages',d:'Muestra últimos 100 mensajes de log.',e:'tail -100 /var/log/syslog',o:`May 12 lab-utu systemd[1]: Started service.`,n:'En Debian/Ubuntu suele usarse /var/log/syslog.'},
+  {c:'rendimiento',cmd:'tcpdump -i eth0',d:'Captura tráfico de red en eth0.',e:'sudo tcpdump -i eth0',o:`IP 192.168.1.45.443 > 192.168.1.10.52344: Flags [P.]`,n:'Requiere permisos. Genera mucho tráfico.'},
+  {c:'rendimiento',cmd:"tcpdump -i eth0 'port 80'",d:'Captura tráfico HTTP del puerto 80.',e:"sudo tcpdump -i eth0 'port 80'",o:`IP host.52344 > web.80: Flags [S]`,n:'HTTP puede ser legible si no está cifrado.'},
+  {c:'rendimiento',cmd:'lsof',d:'Lista archivos abiertos en el sistema.',e:'lsof | head',o:`COMMAND PID USER FD TYPE NAME`,n:'En Linux casi todo se maneja como archivo.'},
+  {c:'rendimiento',cmd:'lsof -u usuario',d:'Lista archivos abiertos por un usuario.',e:'lsof -u sysadmin',o:`bash 1200 sysadmin cwd DIR /home/sysadmin`,n:'Reemplazar usuario.'},
+  {c:'rendimiento',cmd:'watch df -h',d:'Ejecuta df -h periódicamente.',e:'watch df -h',o:`Every 2.0s: df -h`,n:'Presionar Ctrl+C para salir.'},
+
+  {c:'usuarios',cmd:'id',d:'Muestra UID, GID y grupos.',e:'id',o:`uid=1000(sysadmin) gid=1000(sysadmin) groups=1000(sysadmin),27(sudo)`,n:'Ayuda a diagnosticar permisos.'},
+  {c:'usuarios',cmd:'last',d:'Muestra últimos inicios de sesión.',e:'last',o:`sysadmin pts/0 192.168.1.10 Tue May 12 10:20`,n:'Sirve para auditoría básica.'},
+  {c:'usuarios',cmd:'who',d:'Muestra usuarios conectados.',e:'who',o:`sysadmin pts/0 2026-05-12 10:20`,n:'Más simple que w.'},
+  {c:'usuarios',cmd:'groupadd test',d:'Crea un grupo llamado test.',e:'sudo groupadd test',o:``,n:'Requiere permisos de administrador.'},
+  {c:'usuarios',cmd:'useradd -c "John Smith" -m john',d:'Crea usuario con comentario y directorio personal.',e:'sudo useradd -c "John Smith" -m john',o:``,n:'Luego se asigna contraseña con passwd john.'},
+  {c:'usuarios',cmd:'userdel john',d:'Elimina un usuario.',e:'sudo userdel john',o:``,n:'No siempre elimina /home/john si no se usa -r.'},
+  {c:'usuarios',cmd:'usermod -aG sales john',d:'Agrega usuario a un grupo.',e:'sudo usermod -aG sales john',o:``,n:'Usar -aG para no borrar grupos anteriores.'},
+
+  {c:'almacenamiento',cmd:'df -h',d:'Muestra espacio usado y libre en sistemas montados.',e:'df -h',o:`Filesystem Size Used Avail Use% Mounted on
+/dev/sda2 50G 18G 30G 38% /`,n:'Clave para detectar disco lleno.'},
+  {c:'almacenamiento',cmd:'df -i',d:'Muestra uso de inodos.',e:'df -i',o:`Filesystem Inodes IUsed IFree IUse% Mounted on`,n:'Un disco puede quedarse sin inodos aunque tenga GB libres.'},
+  {c:'almacenamiento',cmd:'fdisk -l',d:'Muestra discos y particiones.',e:'sudo fdisk -l',o:`Disk /dev/sda: 100 GiB
+/dev/sda1 EFI
+/dev/sda2 Linux filesystem`,n:'No modificar particiones sin respaldo.'},
+  {c:'almacenamiento',cmd:'du -ah',d:'Muestra uso de archivos y directorios.',e:'du -ah . | head',o:`4.0K ./archivo.txt
+120M ./Videos`,n:'En el archivo aparece DU -ah; en Linux el comando correcto es du -ah.'},
+  {c:'almacenamiento',cmd:'du -sh',d:'Muestra uso total del directorio actual.',e:'du -sh .',o:`1.4G .`,n:'Muy útil para encontrar carpetas grandes.'},
+
+  {c:'archivos',cmd:'ls -al',d:'Lista archivos en formato largo, incluyendo ocultos.',e:'ls -al',o:`drwxr-xr-x 2 sysadmin sysadmin 4096 may 12 .
+-rw-r--r-- 1 sysadmin sysadmin  120 notas.txt`,n:'Permisos, dueño, grupo, tamaño y fecha.'},
+  {c:'archivos',cmd:'pwd',d:'Muestra directorio actual.',e:'pwd',o:`/home/sysadmin`,n:'Primer comando al perder ubicación.'},
+  {c:'archivos',cmd:'mkdir directorio',d:'Crea un directorio.',e:'mkdir practica',o:``,n:'No sobrescribe si ya existe.'},
+  {c:'archivos',cmd:'rm archivo',d:'Elimina un archivo.',e:'rm notas.txt',o:``,n:'No envía a papelera.'},
+  {c:'archivos',cmd:'rm -r directorio',d:'Elimina directorio y contenido recursivamente.',e:'rm -r practica',o:``,n:'Usar con cuidado.'},
+  {c:'archivos',cmd:'rm -f archivo',d:'Fuerza eliminación sin confirmar.',e:'rm -f archivo.tmp',o:``,n:'Peligroso si se combina con comodines.'},
+  {c:'archivos',cmd:'rm -rf directorio',d:'Fuerza eliminación recursiva.',e:'rm -rf carpeta',o:``,n:'Muy peligroso. Verificar ruta antes.'},
+  {c:'archivos',cmd:'cp archivo1 archivo2',d:'Copia archivo.',e:'cp informe.txt backup.txt',o:``,n:'Sobrescribe destino si existe.'},
+  {c:'archivos',cmd:'cp -r directorio_origen destino',d:'Copia directorios recursivamente.',e:'cp -r proyecto proyecto_backup',o:``,n:'Conserva estructura básica.'},
+  {c:'archivos',cmd:'mv archivo1 archivo2',d:'Mueve o renombra.',e:'mv viejo.txt nuevo.txt',o:``,n:'También mueve entre directorios.'},
+  {c:'archivos',cmd:'ln -s /ruta/al/archivo nombre_enlace',d:'Crea enlace simbólico.',e:'ln -s /var/log/syslog log_actual',o:``,n:'El enlace apunta al archivo original.'},
+  {c:'archivos',cmd:'touch archivo',d:'Crea archivo vacío o actualiza fechas.',e:'touch prueba.txt',o:``,n:'Útil para crear archivos de práctica.'},
+  {c:'archivos',cmd:'cat archivo',d:'Muestra contenido completo.',e:'cat /etc/os-release',o:`PRETTY_NAME="Ubuntu 24.04 LTS"`,n:'No conviene para archivos muy largos.'},
+  {c:'archivos',cmd:'less archivo',d:'Permite navegar un archivo.',e:'less /var/log/syslog',o:`[visor interactivo]`,n:'q para salir.'},
+  {c:'archivos',cmd:'head archivo',d:'Muestra primeras 10 líneas de un archivo.',e:'head /etc/passwd',o:`root:x:0:0:root:/root:/bin/bash`,n:'Por defecto muestra 10 líneas.'},
+  {c:'archivos',cmd:'tail archivo',d:'Muestra últimas 10 líneas de un archivo.',e:'tail /var/log/syslog',o:`May 12 lab-utu systemd[1]: Started service.`,n:'Por defecto muestra 10 líneas.'},
+  {c:'archivos',cmd:'tail -f archivo',d:'Sigue el crecimiento de un archivo.',e:'tail -f /var/log/syslog',o:`[esperando nuevas líneas...]`,n:'Ctrl+C para salir.'},
+  {c:'archivos',cmd:'cd ..',d:'Sube un nivel en el árbol de directorios.',e:'cd ..',o:``,n:'No muestra salida.'},
+  {c:'archivos',cmd:'cd ~',d:'Va al directorio HOME del usuario.',e:'cd ~',o:``,n:'Equivale a /home/usuario.'},
+  {c:'archivos',cmd:'cd /etc',d:'Va al directorio de configuración del sistema.',e:'cd /etc',o:``,n:'Archivos críticos de configuración.'},
+  {c:'archivos',cmd:'cd /',d:'Va a la raíz del sistema.',e:'cd /',o:``,n:'Punto inicial del árbol Linux.'},
+  {c:'archivos',cmd:'tar cf archive.tar directorio',d:'Crea archivo tar sin comprimir.',e:'tar cf backup.tar proyecto',o:``,n:'Solo empaqueta.'},
+  {c:'archivos',cmd:'tar xf archive.tar',d:'Extrae archivo tar.',e:'tar xf backup.tar',o:``,n:'Extrae en directorio actual.'},
+  {c:'archivos',cmd:'tar czf archive.tar.gz directorio',d:'Crea tar comprimido con gzip.',e:'tar czf backup.tar.gz proyecto',o:``,n:'Muy común para respaldos.'},
+  {c:'archivos',cmd:'tar xzf archive.tar.gz',d:'Extrae tar.gz.',e:'tar xzf backup.tar.gz',o:``,n:'z indica gzip.'},
+  {c:'archivos',cmd:'tar cjf archive.tar.bz2 directorio',d:'Crea un archivo tar comprimido con bzip2.',e:'tar cjf archive.tar.bz2 proyecto',o:``,n:'bzip2 puede comprimir más, pero suele ser más lento.'},
+  {c:'archivos',cmd:'tar xjf archive.tar.bz2',d:'Extrae un archivo tar comprimido con bzip2.',e:'tar xjf archive.tar.bz2',o:``,n:'La opción j indica compresión bzip2.'},
+
+  {c:'busqueda',cmd:'grep patron archivo',d:'Busca texto dentro de un archivo.',e:'grep root /etc/passwd',o:`root:x:0:0:root:/root:/bin/bash`,n:'Distingue mayúsculas por defecto.'},
+  {c:'busqueda',cmd:'grep -r patron directorio',d:'Busca texto recursivamente.',e:'grep -r "PermitRootLogin" /etc/ssh',o:`/etc/ssh/sshd_config:#PermitRootLogin prohibit-password`,n:'Puede generar mucha salida.'},
+  {c:'busqueda',cmd:'locate nombre',d:'Busca archivos por base indexada.',e:'locate sshd_config',o:`/etc/ssh/sshd_config`,n:'Puede requerir updatedb.'},
+  {c:'busqueda',cmd:"find /home/john -name 'prefix*'",d:'Busca archivos por nombre.',e:"find /home/john -name 'prefix*'",o:`/home/john/prefix_notes.txt`,n:'No depende de índice.'},
+  {c:'busqueda',cmd:'find /home -size +100M',d:'Busca archivos mayores a 100 MB.',e:'find /home -size +100M',o:`/home/sysadmin/Videos/clase.mp4`,n:'Útil para liberar espacio.'},
+
+  {c:'permisos',cmd:'chmod 777 filename',d:'Permiso total para todos.',e:'chmod 777 script.sh',o:``,n:'Evitar salvo casos controlados.'},
+  {c:'permisos',cmd:'chmod 775 filename',d:'Dueño y grupo con rwx; otros con lectura y ejecución.',e:'chmod 775 carpeta_compartida',o:``,n:'Útil cuando un grupo debe modificar archivos.'},
+  {c:'permisos',cmd:'chmod 755 filename',d:'Dueño rwx, grupo/otros rx.',e:'chmod 755 script.sh',o:``,n:'Común para scripts ejecutables.'},
+  {c:'permisos',cmd:'chmod 664 filename',d:'Dueño y grupo con lectura/escritura; otros solo lectura.',e:'chmod 664 documento.txt',o:``,n:'Común en archivos colaborativos sin ejecución.'},
+  {c:'permisos',cmd:'chmod 644 filename',d:'Dueño rw, grupo/otros solo lectura.',e:'chmod 644 documento.txt',o:``,n:'Común para archivos de texto.'},
+
+  {c:'procesos',cmd:'ps',d:'Muestra procesos del usuario actual.',e:'ps',o:`PID TTY TIME CMD
+1201 pts/0 00:00:00 bash`,n:'Salida breve.'},
+  {c:'procesos',cmd:'ps -ef',d:'Muestra todos los procesos.',e:'ps -ef',o:`UID PID PPID C STIME TTY TIME CMD
+root 1 0 0 08:10 ? 00:00:02 systemd`,n:'Muy usado con grep.'},
+  {c:'procesos',cmd:'ps -ef | grep nombre_del_proceso',d:'Busca proceso por nombre.',e:'ps -ef | grep ssh',o:`root 899 1 0 ? /usr/sbin/sshd`,n:'También puede aparecer el propio grep.'},
+  {c:'procesos',cmd:'kill pid',d:'Envía señal a un proceso.',e:'kill 1234',o:``,n:'Usar PID correcto.'},
+  {c:'procesos',cmd:'killall nombre_del_proceso',d:'Finaliza procesos por nombre.',e:'killall firefox',o:``,n:'Puede cerrar múltiples procesos.'},
+  {c:'procesos',cmd:'programa &',d:'Inicia programa en segundo plano.',e:'sleep 60 &',o:`[1] 2345`,n:'Libera la terminal.'},
+  {c:'procesos',cmd:'bg',d:'Continúa trabajo en segundo plano.',e:'bg',o:`[1]+ sleep 60 &`,n:'Usado tras Ctrl+Z.'},
+  {c:'procesos',cmd:'fg',d:'Trae trabajo al primer plano.',e:'fg',o:`sleep 60`,n:'Ctrl+C termina el proceso.'},
+  {c:'procesos',cmd:'fg n',d:'Trae el trabajo n al primer plano.',e:'fg 2',o:`comando`,n:'jobs muestra números.'},
+
+  {c:'red',cmd:'ip a',d:'Muestra interfaces y direcciones IP.',e:'ip a',o:`2: eth0: <BROADCAST,UP>
+    inet 192.168.1.45/24`,n:'Reemplaza ifconfig.'},
+  {c:'red',cmd:'ip addr',d:'Muestra direcciones IP e información de propiedades.',e:'ip addr',o:`2: eth0: <BROADCAST,UP>
+    inet 192.168.1.45/24 brd 192.168.1.255 scope global eth0`,n:'Equivale a ip a.'},
+  {c:'red',cmd:'ip addr show dev eth0',d:'Muestra detalles de eth0.',e:'ip addr show dev eth0',o:`2: eth0: mtu 1500 qdisc fq_codel state UP
+inet 192.168.1.45/24`,n:'Cambiar eth0 según interfaz real.'},
+  {c:'red',cmd:'ip link',d:'Muestra y gestiona el estado de interfaces de red.',e:'ip link',o:`2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 state UP`,n:'No muestra direcciones IP; muestra enlaces e interfaces.'},
+  {c:'red',cmd:'ip route',d:'Muestra tabla de rutas.',e:'ip route',o:`default via 192.168.1.1 dev eth0
+192.168.1.0/24 dev eth0 proto kernel`,n:'Clave para diagnosticar salida a internet.'},
+  {c:'red',cmd:'ip maddr',d:'Muestra direcciones multicast configuradas.',e:'ip maddr',o:`2: eth0
+    inet 224.0.0.1
+    inet6 ff02::1`,n:'Relaciona red con tráfico multicast.'},
+  {c:'red',cmd:'ip neigh',d:'Muestra vecinos de red, equivalente moderno de ARP.',e:'ip neigh',o:`192.168.1.1 dev eth0 lladdr aa:bb:cc:dd:ee:ff REACHABLE`,n:'Útil para capa 2/3.'},
+  {c:'red',cmd:'ip help',d:'Muestra ayuda general del comando ip.',e:'ip help',o:`Usage: ip [ OPTIONS ] OBJECT { COMMAND | help }`,n:'Útil para descubrir subcomandos.'},
+  {c:'red',cmd:'ip maddr add 33:33:00:00:00:01 dev em1',d:'Agrega una dirección multicast estática de capa de enlace.',e:'sudo ip maddr add 33:33:00:00:00:01 dev em1',o:``,n:'Comando avanzado; requiere comprender multicast e interfaz correcta.'},
+  {c:'red',cmd:'ip maddr del 33:33:00:00:00:01 dev em1',d:'Elimina una dirección multicast de capa de enlace.',e:'sudo ip maddr del 33:33:00:00:00:01 dev em1',o:``,n:'Verificar antes con ip maddr.'},
+  {c:'red',cmd:'ip addr add 192.168.1.1/24 dev em1',d:'Agrega una dirección IP a una interfaz.',e:'sudo ip addr add 192.168.1.1/24 dev em1',o:``,n:'Puede cortar conectividad si se usa en la interfaz equivocada.'},
+  {c:'red',cmd:'ip addr del 192.168.1.1/24 dev em1',d:'Elimina una dirección IP de una interfaz.',e:'sudo ip addr del 192.168.1.1/24 dev em1',o:``,n:'Confirmar la dirección antes de eliminarla.'},
+  {c:'red',cmd:'ip link set em1 up',d:'Activa una interfaz de red.',e:'sudo ip link set em1 up',o:``,n:'La interfaz puede estar activa pero no tener IP.'},
+  {c:'red',cmd:'ip link set em1 down',d:'Desactiva una interfaz de red.',e:'sudo ip link set em1 down',o:``,n:'Puede dejar el equipo sin red si es la interfaz principal.'},
+  {c:'red',cmd:'ip link set em1 mtu 9000',d:'Configura el MTU de una interfaz.',e:'sudo ip link set em1 mtu 9000',o:``,n:'Jumbo frames requieren soporte en toda la ruta.'},
+  {c:'red',cmd:'ip link set em1 promisc on',d:'Habilita modo promiscuo en la interfaz.',e:'sudo ip link set em1 promisc on',o:``,n:'Usado para captura/análisis; no dejar habilitado sin motivo.'},
+  {c:'red',cmd:'ip route add default via 192.168.1.1 dev em1',d:'Agrega una ruta predeterminada.',e:'sudo ip route add default via 192.168.1.1 dev em1',o:``,n:'La ruta default define por dónde sale el tráfico a otras redes.'},
+  {c:'red',cmd:'ip route delete 192.168.1.0/24 via 192.168.1.1',d:'Elimina una ruta de la tabla de ruteo.',e:'sudo ip route delete 192.168.1.0/24 via 192.168.1.1',o:``,n:'Puede afectar conectividad local.'},
+  {c:'red',cmd:'ip route replace 192.168.1.0/24 dev em1',d:'Reemplaza o agrega una ruta.',e:'sudo ip route replace 192.168.1.0/24 dev em1',o:``,n:'Útil para correcciones rápidas, pero debe documentarse.'},
+  {c:'red',cmd:'ip route get 192.168.1.5',d:'Muestra qué ruta tomará una IP.',e:'ip route get 8.8.8.8',o:`8.8.8.8 via 192.168.1.1 dev eth0 src 192.168.1.45`,n:'Excelente para diagnóstico.'},
+  {c:'red',cmd:'ip neigh add 192.168.1.1 lladdr 1:2:3:4:5:6 dev em1',d:'Agrega una entrada estática a la tabla ARP/vecinos.',e:'sudo ip neigh add 192.168.1.1 lladdr 1:2:3:4:5:6 dev em1',o:``,n:'Uso avanzado; una MAC incorrecta rompe la comunicación.'},
+  {c:'red',cmd:'ip neigh del 192.168.1.1 dev em1',d:'Elimina o invalida una entrada de vecinos.',e:'sudo ip neigh del 192.168.1.1 dev em1',o:``,n:'Puede forzar un nuevo descubrimiento ARP/NDP.'},
+  {c:'red',cmd:'ip neigh replace 192.168.1.1 lladdr 1:2:3:4:5:6 dev em1',d:'Reemplaza o agrega una entrada ARP/vecino.',e:'sudo ip neigh replace 192.168.1.1 lladdr 1:2:3:4:5:6 dev em1',o:``,n:'Verificar interfaz, IP y MAC antes de usar.'},
+  {c:'red',cmd:'arping -I eth0 192.168.1.1',d:'Envía solicitudes ARP a un host vecino.',e:'sudo arping -I eth0 192.168.1.1',o:`ARPING 192.168.1.1 from 192.168.1.45 eth0
+Unicast reply from 192.168.1.1 [AA:BB:CC:DD:EE:FF]`,n:'Sirve para confirmar conectividad de capa 2.'},
+  {c:'red',cmd:'ethtool eth0',d:'Consulta driver y enlace de red.',e:'sudo ethtool eth0',o:`Speed: 1000Mb/s
+Duplex: Full
+Link detected: yes`,n:'Útil para cableado y velocidad.'},
+  {c:'red',cmd:'ethtool -i eth0',d:'Muestra información del driver de la interfaz.',e:'sudo ethtool -i eth0',o:`driver: e1000e
+version: 6.5.0
+firmware-version: 0.4-4`,n:'Útil para diagnosticar problemas de hardware o drivers.'},
+  {c:'red',cmd:'ping host',d:'Envía ICMP echo para probar conectividad.',e:'ping 8.8.8.8',o:`64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=12.4 ms`,n:'Ctrl+C para detener.'},
+  {c:'red',cmd:'whois dominio',d:'Consulta información registral de dominio.',e:'whois utu.edu.uy',o:`domain: utu.edu.uy`,n:'Puede no estar instalado.'},
+  {c:'red',cmd:'dig dominio',d:'Consulta DNS de un dominio.',e:'dig utu.edu.uy',o:`utu.edu.uy. 300 IN A 190.x.x.x`,n:'Más técnico que nslookup.'},
+  {c:'red',cmd:'dig -x DIRECCION_IP',d:'Consulta DNS inverso.',e:'dig -x 8.8.8.8',o:`8.8.8.8.in-addr.arpa. PTR dns.google.`,n:'No todas las IP tienen reverso.'},
+  {c:'red',cmd:'host dominio',d:'Muestra IP asociada a dominio.',e:'host google.com',o:`google.com has address 142.250.80.46`,n:'Simple para estudiantes.'},
+  {c:'red',cmd:'hostname -i',d:'Muestra IP asociada al hostname.',e:'hostname -i',o:`127.0.1.1`,n:'Puede no ser la IP de red real.'},
+  {c:'red',cmd:'hostname -I',d:'Muestra todas las direcciones IP locales del host.',e:'hostname -I',o:`192.168.1.45  fe80::a00:27ff:fe4e:66a1`,n:'Más útil que hostname -i para ver IPs asignadas.'},
+  {c:'red',cmd:'wget http://dominio.com/archivo',d:'Descarga archivo desde una URL.',e:'wget http://example.com/index.html',o:`index.html saved [1256/1256]`,n:'Cuidado con fuentes no confiables.'},
+  {c:'red',cmd:'netstat -nutlp',d:'Muestra puertos TCP/UDP en escucha y sus programas.',e:'sudo netstat -nutlp',o:`tcp 0 0 0.0.0.0:22 LISTEN 899/sshd`,n:'Actualmente suele preferirse ss.'},
+  {c:'red',cmd:'ss -a',d:'Muestra estadísticas de sockets.',e:'ss -a',o:`Netid State Local Address:Port Peer Address:Port`,n:'Reemplazo moderno de netstat.'},
+  {c:'red',cmd:'arp -a',d:'Muestra la tabla ARP usando net-tools.',e:'arp -a',o:`router.local (192.168.1.1) at aa:bb:cc:dd:ee:ff [ether] on eth0`,n:'Alternativa moderna: ip neigh.'},
+  {c:'red',cmd:'arp -v',d:'Muestra la tabla ARP en modo detallado.',e:'arp -v',o:`Entries: 1
+Address HWtype HWaddress Flags Mask Iface`,n:'Alternativa moderna: ip -s neigh.'},
+  {c:'red',cmd:'arp -s 192.168.1.1 1:2:3:4:5:6',d:'Agrega una entrada ARP estática con net-tools.',e:'sudo arp -s 192.168.1.1 1:2:3:4:5:6',o:``,n:'Alternativa moderna: ip neigh add.'},
+  {c:'red',cmd:'arp -i eth1 -d 192.168.1.1',d:'Elimina una entrada ARP en una interfaz.',e:'sudo arp -i eth1 -d 192.168.1.1',o:``,n:'Alternativa moderna: ip neigh del.'},
+  {c:'red',cmd:'ifconfig -a',d:'Muestra interfaces usando net-tools.',e:'ifconfig -a',o:`eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST> mtu 1500`,n:'Comando clásico; se prefiere ip addr.'},
+  {c:'red',cmd:'ifconfig eth0 down',d:'Baja una interfaz usando net-tools.',e:'sudo ifconfig eth0 down',o:``,n:'Alternativa moderna: ip link set eth0 down.'},
+  {c:'red',cmd:'ifconfig eth0 up',d:'Sube una interfaz usando net-tools.',e:'sudo ifconfig eth0 up',o:``,n:'Alternativa moderna: ip link set eth0 up.'},
+  {c:'red',cmd:'ifconfig eth0 192.168.1.1',d:'Asigna una IP a una interfaz usando net-tools.',e:'sudo ifconfig eth0 192.168.1.1',o:``,n:'Alternativa moderna: ip addr add 192.168.1.1/24 dev eth0.'},
+  {c:'red',cmd:'ifconfig eth0 netmask 255.255.255.0',d:'Configura máscara de red usando net-tools.',e:'sudo ifconfig eth0 netmask 255.255.255.0',o:``,n:'En ip se expresa como prefijo CIDR.'},
+  {c:'red',cmd:'ifconfig eth0 mtu 9000',d:'Configura MTU usando net-tools.',e:'sudo ifconfig eth0 mtu 9000',o:``,n:'Alternativa moderna: ip link set eth0 mtu 9000.'},
+  {c:'red',cmd:'ifconfig eth0:0 192.168.1.2',d:'Crea una IP alias en la interfaz.',e:'sudo ifconfig eth0:0 192.168.1.2',o:``,n:'Alternativa moderna: ip addr add 192.168.1.2/24 dev eth0.'},
+  {c:'red',cmd:'netstat',d:'Muestra conexiones, rutas o estadísticas según opciones.',e:'netstat',o:`Active Internet connections
+Proto Recv-Q Send-Q Local Address Foreign Address State`,n:'Comando clásico; se prefiere ss.'},
+  {c:'red',cmd:'netstat -neopa',d:'Muestra conexiones detalladas con procesos.',e:'sudo netstat -neopa',o:`Proto Recv-Q Send-Q Local Address Foreign Address State User Inode PID/Program name`,n:'Alternativa moderna: ss -neopa.'},
+  {c:'red',cmd:'netstat -g',d:'Muestra grupos multicast.',e:'netstat -g',o:`IPv6/IPv4 Group Memberships`,n:'Alternativa moderna: ip maddr.'},
+  {c:'red',cmd:'route',d:'Muestra tabla de rutas usando net-tools.',e:'route',o:`Kernel IP routing table
+Destination Gateway Genmask Flags Iface`,n:'Alternativa moderna: ip route.'},
+  {c:'red',cmd:'route add -net 192.168.1.0 netmask 255.255.255.0 dev eth0',d:'Agrega una ruta de red con net-tools.',e:'sudo route add -net 192.168.1.0 netmask 255.255.255.0 dev eth0',o:``,n:'Alternativa moderna: ip route add 192.168.1.0/24 dev eth0.'},
+  {c:'red',cmd:'route add default gw 192.168.1.1',d:'Agrega gateway predeterminado con net-tools.',e:'sudo route add default gw 192.168.1.1',o:``,n:'Alternativa moderna: ip route add default via 192.168.1.1.'},
+
+  {c:'editores',cmd:'nano archivo',d:'Editor simple en terminal.',e:'nano notas.txt',o:`[abre editor nano]`,n:'Ctrl+O guarda, Ctrl+X sale.'},
+  {c:'editores',cmd:'vim archivo',d:'Editor modal avanzado.',e:'vim notas.txt',o:`[abre editor vim]`,n:'i para insertar, Esc :wq para guardar y salir.'}
+];
+
+const nanoKeys=['Ctrl+S','Ctrl+O','Ctrl+R','Ctrl+X','Ctrl+K','Alt+6','Ctrl+U','Alt+T','Ctrl+]','Alt+3','Alt+U','Alt+E','Ctrl+Q','Ctrl+W','Alt+Q','Alt+W','Alt+R','Ctrl+H','Ctrl+D','Alt+Bsp','Ctrl+Del','Alt+Del','Ctrl+T','Ctrl+J','Alt+J','Alt+B','Alt+F','Alt+:','Alt+;','Ctrl+B','Ctrl+F','Ctrl+←','Ctrl+→','Ctrl+A','Ctrl+E','Ctrl+P','Ctrl+N','Ctrl+↑','Ctrl+↓','Ctrl+Y','Ctrl+V','Alt+\u005c','Alt+/','Alt+G','Alt+]','Alt+↑','Alt+↓','Alt+<','Alt+>','Ctrl+C','Alt+D','Ctrl+G','Alt+A','Tab','Shift+Tab','Alt+V','Alt+N','Alt+P','Alt+X','Ctrl+L'];
+const vimKeys=['h','l','j','k','w','b','$','0',')','(','}','{','Ctrl-F','Ctrl-B','G','d','d$','d0','d}','dd','x','r','ZZ','y','y)','Y','p','P','u','/texto','5dd'];
+
+commands.push(
+  ...nanoKeys.map(k=>({c:'editores',cmd:k+' · nano',d:'Atajo de teclado del editor nano.',e:k+' · nano',o:'Atajo de nano: '+k,n:'No se ejecuta como comando de shell; se usa dentro del editor nano.'})),
+  ...vimKeys.map(k=>({c:'editores',cmd:k+' · vim',d:'Comando o movimiento del editor Vim.',e:k+' · vim',o:'Comando de Vim: '+k,n:'No se ejecuta como comando de shell; se usa dentro de Vim en el modo correspondiente.'}))
+);
+
+const fsData={
+  '/':'Raíz del sistema. Todo cuelga de este punto.',
+  '/home':'Directorios personales de usuarios. Ejemplo: /home/sysadmin.',
+  '/etc':'Archivos de configuración del sistema y servicios.',
+  '/var':'Datos variables: logs, colas, cachés y archivos que cambian.',
+  '/var/log':'Registros del sistema. Ejemplo: syslog, auth.log.',
+  '/dev':'Dispositivos representados como archivos. Ejemplo: /dev/sda.',
+  '/proc':'Sistema virtual con información del kernel y procesos.',
+  '/tmp':'Archivos temporales. Puede limpiarse automáticamente.',
+  '/usr':'Programas, bibliotecas y documentación de usuario.',
+  '/boot':'Kernel, initramfs y archivos de arranque.'
+};
+
+let activeCat='all';
+let selectedCommand=null;
+const NL=String.fromCharCode(10);
+
+function escapeHTML(value){
+  return String(value ?? '').replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+}
+
+function initMap(){
+  const m=document.getElementById('map-grid');
+  if(!m)return;
+  m.innerHTML='';
+  categories.forEach((c,i)=>{
+    const d=document.createElement('div');
+    d.className='map-card';
+    d.onclick=()=>{activeCat=c[0];renderTabs();renderCommands();location.hash='s4'};
+    d.innerHTML=`<div class="map-num">${String(i+1).padStart(2,'0')}</div><div class="map-title">${escapeHTML(c[1])}</div><div class="map-desc">${escapeHTML(c[2])}</div>`;
+    m.appendChild(d);
+  });
+}
+
+function renderTabs(){
+  const t=document.getElementById('category-tabs');
+  if(!t)return;
+  t.innerHTML='';
+  [['all','Todos','']].concat(categories).forEach(c=>{
+    const b=document.createElement('button');
+    b.className='tab-btn '+(activeCat===c[0]?'active':'');
+    b.textContent=c[1];
+    b.onclick=()=>{activeCat=c[0];renderTabs();renderCommands();};
+    t.appendChild(b);
+  });
+}
+
+function renderCommands(){
+  const search=document.getElementById('cmd-search');
+  const grid=document.getElementById('command-grid');
+  if(!grid)return;
+  const q=(search?.value || '').toLowerCase();
+  grid.innerHTML='';
+  commands
+    .filter(x=>(activeCat==='all'||x.c===activeCat) && (`${x.cmd} ${x.d} ${x.e}`.toLowerCase().includes(q)))
+    .forEach(cmd=>{
+      const cat=categories.find(c=>c[0]===cmd.c)?.[1]||cmd.c;
+      const d=document.createElement('div');
+      d.className='command-card '+(selectedCommand===cmd?'selected':'');
+      d.onclick=()=>selectCommand(cmd);
+      d.innerHTML=`<div class="command-name">${escapeHTML(cmd.cmd)}</div><div class="command-cat">${escapeHTML(cat)}</div><div class="command-desc">${escapeHTML(cmd.d)}</div>`;
+      grid.appendChild(d);
+    });
+}
+
+function selectCommand(cmd){
+  selectedCommand=cmd;
+  renderCommands();
+  const detail=document.getElementById('command-detail');
+  if(!detail)return;
+  const dangerous=(cmd.n || '').toLowerCase().includes('pelig') || (cmd.n || '').toLowerCase().includes('cuidado');
+  detail.innerHTML=`
+    <div class="detail-top"><div class="detail-title">${escapeHTML(cmd.cmd)}</div><button class="copy-btn" onclick="loadDetailCommand()">probar en terminal</button></div>
+    <div class="detail-body">
+      <p>${escapeHTML(cmd.d)}</p>
+      <div class="code-card"><div class="code-head"><span class="code-title">ejemplo de uso</span><button class="copy-btn" onclick="copyCode(this)">copiar</button></div><pre>${escapeHTML(cmd.e)}</pre></div>
+      <div class="code-card"><div class="code-head"><span class="code-title">salida esperada</span></div><pre>${escapeHTML(cmd.o || '(sin salida si el comando termina correctamente)')}</pre></div>
+      <div class="warn ${dangerous?'danger':''}"><strong>Observación:</strong> ${escapeHTML(cmd.n || 'Sin observaciones adicionales.')}</div>
+    </div>`;
+}
+
+function loadDetailCommand(){
+  if(selectedCommand)quickRun(selectedCommand.e.split(NL)[0]);
+}
+
+function terminalOutput(cmd){
+  const normalized=cmd.trim();
+  const x=commands.find(c=>c.e===normalized || c.cmd===normalized || c.e.split(NL)[0]===normalized);
+  if(x)return x.o || '(sin salida si el comando termina correctamente)';
+  const generic={
+    'clear':'__CLEAR__',
+    'pwd':'/home/sysadmin',
+    'ls -al':['drwxr-xr-x 2 sysadmin sysadmin 4096 may 12 .','drwxr-xr-x 3 root     root     4096 may 10 ..','-rw-r--r-- 1 sysadmin sysadmin  120 notas.txt','drwxr-xr-x 2 sysadmin sysadmin 4096 may 12 practica'].join(NL),
+    'cd /etc':'',
+    'cd /':'',
+    'cd ~':'',
+    'cd ..':'',
+    'whoami':'sysadmin',
+    'ip route':['default via 192.168.1.1 dev eth0','192.168.1.0/24 dev eth0 proto kernel src 192.168.1.45'].join(NL),
+    'journalctl -u ssh':'may 12 lab-utu systemd[1]: Started OpenBSD Secure Shell server.'
+  };
+  return generic[normalized] ?? `bash: ${normalized}: comando no simulado en esta práctica`;
+}
+
+function runTerminal(){
+  const input=document.getElementById('terminal-input');
+  const cmd=input.value.trim();
+  if(!cmd)return;
+  appendTerm(`sysadmin@lab-utu:~$ ${cmd}`,'cmd');
+  const out=terminalOutput(cmd);
+  if(out==='__CLEAR__'){
+    document.getElementById('terminal-output').innerHTML='';
+    input.value='';
+    return;
+  }
+  appendTerm(out,out.startsWith('bash:')?'err':'out');
+  input.value='';
+}
+
+function appendTerm(text,cls){
+  const out=document.getElementById('terminal-output');
+  if(!out)return;
+  String(text).split(NL).forEach(line=>{
+    const d=document.createElement('div');
+    d.className='term-line '+cls;
+    d.textContent=line;
+    out.appendChild(d);
+  });
+  out.scrollTop=out.scrollHeight;
+}
+
+function quickRun(cmd){
+  const input=document.getElementById('terminal-input');
+  if(input)input.value=cmd;
+  location.hash='s3';
+  setTimeout(runTerminal,120);
+}
+
+function initSuggestions(){
+  const sRoot=document.getElementById('suggestions');
+  if(!sRoot)return;
+  sRoot.innerHTML='';
+  ['whoami','pwd','ls -al','cat /etc/os-release','df -h','free -h','ip a','ip route','ping 8.8.8.8','ps -ef','journalctl -u ssh','grep root /etc/passwd'].forEach(s=>{
+    const p=document.createElement('span');
+    p.className='pill';
+    p.textContent=s;
+    p.onclick=()=>quickRun(s);
+    sRoot.appendChild(p);
+  });
+}
+
+function renderTerminalCommandGroups(){
+  const root=document.getElementById('terminal-command-groups');
+  if(!root)return;
+  root.innerHTML='';
+  categories.forEach((cat,idx)=>{
+    const items=commands.filter(c=>c.c===cat[0]);
+    if(!items.length)return;
+    const details=document.createElement('details');
+    details.className='terminal-group';
+    if(idx<3)details.open=true;
+    details.innerHTML=`<summary>${escapeHTML(cat[1])} <span>${items.length} comandos</span></summary><div class="terminal-group-body"></div>`;
+    const body=details.querySelector('.terminal-group-body');
+    items.forEach(item=>{
+      const p=document.createElement('span');
+      p.className='pill';
+      p.textContent=item.e.split(NL)[0];
+      p.title=item.d;
+      p.onclick=()=>quickRun(item.e.split(NL)[0]);
+      body.appendChild(p);
+    });
+    root.appendChild(details);
+  });
+}
+
+function initFs(){
+  const tree=document.getElementById('fs-tree');
+  if(!tree)return;
+  tree.innerHTML='';
+  Object.keys(fsData).forEach((k,i)=>{
+    const d=document.createElement('div');
+    d.className='fs-node '+(i===0?'active':'');
+    d.textContent=(k==='/'?'└─ ':'   ├─ ')+k;
+    d.onclick=()=>selectFs(k,d);
+    tree.appendChild(d);
+  });
+  selectFs('/',tree.firstChild);
+}
+
+function selectFs(k,el){
+  document.querySelectorAll('.fs-node').forEach(n=>n.classList.remove('active'));
+  if(el)el.classList.add('active');
+  const info=document.getElementById('fs-info');
+  if(!info)return;
+  info.innerHTML=`<h3>${escapeHTML(k)}</h3><p>${escapeHTML(fsData[k])}</p><div class="code-card"><div class="code-head"><span class="code-title">comando útil</span><button class="copy-btn" onclick="copyCode(this)">copiar</button></div><pre>cd ${escapeHTML(k)}
+ls -al
+pwd</pre></div>`;
+}
+
+function initPerms(){
+  const root=document.getElementById('perm-controls');
+  if(!root)return;
+  root.innerHTML='';
+  [['Usuario','u'],['Grupo','g'],['Otros','o']].forEach((row,ri)=>{
+    const d=document.createElement('div');
+    d.className='perm-row';
+    d.innerHTML=`<label>${row[0]}</label>`;
+    ['r','w','x'].forEach((p,pi)=>{
+      const c=document.createElement('label');
+      c.className='perm-check';
+      c.innerHTML=`<input type="checkbox" data-row="${ri}" data-val="${[4,2,1][pi]}" ${ri===0?'checked':(ri>0&&p!=='w'?'checked':'')}> ${p}`;
+      c.querySelector('input').onchange=updatePerms;
+      d.appendChild(c);
+    });
+    root.appendChild(d);
+  });
+  updatePerms();
+}
+
+function updatePerms(){
+  const vals=[0,0,0],sym=[];
+  document.querySelectorAll('#perm-controls input').forEach(i=>{if(i.checked)vals[+i.dataset.row]+=+i.dataset.val;});
+  [['r','w','x'],['r','w','x'],['r','w','x']].forEach((letters,row)=>{
+    letters.forEach((l,idx)=>{const v=[4,2,1][idx];sym.push(vals[row]&v?l:'-');});
+  });
+  document.getElementById('perm-octal').textContent=vals.join('');
+  document.getElementById('perm-symbolic').textContent=sym.join('');
+  document.getElementById('chmod-example').textContent=`chmod ${vals.join('')} archivo`;
+}
+
+function svgEl(t,a){const e=document.createElementNS('http://www.w3.org/2000/svg',t);Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));return e;}
+function svgText(x,y,text,fill,size='12px',weight='500'){const t=svgEl('text',{x,y,fill,'font-size':size,'font-weight':weight,'text-anchor':'middle','font-family':'Space Grotesk, sans-serif'});t.textContent=text;return t;}
+function clearSvg(id){const s=document.getElementById(id);if(s)s.innerHTML='';return s;}
+function node(s,x,y,w,h,stroke,fill,title,sub){s.appendChild(svgEl('rect',{x,y,width:w,height:h,rx:8,fill,stroke,'stroke-width':1}));s.appendChild(svgText(x+w/2,y+h/2-5,title,'#fff','12px','700'));if(sub)s.appendChild(svgText(x+w/2,y+h/2+12,sub,stroke,'10px','400'));}
+function arrow(s,x1,y1,x2,y2,color,label){const id='m'+Math.random().toString(36).slice(2);let defs=s.querySelector('defs');if(!defs){defs=svgEl('defs',{});s.appendChild(defs);}const m=svgEl('marker',{id,viewBox:'0 0 10 10',refX:8,refY:5,markerWidth:6,markerHeight:6,orient:'auto'});m.appendChild(svgEl('path',{d:'M2 1L8 5L2 9',fill:'none',stroke:color,'stroke-width':1.5}));defs.appendChild(m);s.appendChild(svgEl('line',{x1,y1,x2,y2,stroke:color,'stroke-width':1.5,'marker-end':`url(#${id})`}));if(label)s.appendChild(svgText((x1+x2)/2,(y1+y2)/2-8,label,color,'10px','600'));}
+function pillSvg(s,x,y,w,h,color,fill,text){s.appendChild(svgEl('rect',{x,y,width:w,height:h,rx:h/2,fill,stroke:color,'stroke-width':1}));s.appendChild(svgText(x+w/2,y+h/2+4,text,color,'11px','600'));}
+
+function setProcessMode(m,b){document.querySelectorAll('#s7 .tab-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');drawProcess(m);}
+function drawProcess(m='normal'){
+  const s=clearSvg('proc-svg'); if(!s)return;
+  node(s,50,48,130,52,'var(--purple)','rgba(167,139,250,.12)','Programa','bash / script');
+  node(s,365,48,130,52,'var(--teal)','rgba(45,212,191,.12)','Proceso','PID 1234');
+  node(s,680,48,130,52,'var(--blue)','rgba(77,168,255,.12)','Sistema','CPU + RAM');
+  arrow(s,180,75,365,75,'var(--purple)','ejecuta');
+  arrow(s,495,75,680,75,'var(--teal)','usa recursos');
+  if(m==='kill'){
+    arrow(s,430,160,430,100,'var(--coral)','kill 1234');
+    pillSvg(s,320,170,220,28,'var(--coral)','rgba(251,113,133,.08)','Proceso recibe señal');
+  }else if(m==='bgfg'){
+    pillSvg(s,260,150,160,28,'var(--amber)','rgba(245,158,11,.08)','programa &');
+    pillSvg(s,440,150,120,28,'var(--green)','rgba(74,222,128,.08)','fg');
+    pillSvg(s,580,150,120,28,'var(--blue)','rgba(77,168,255,.08)','bg');
+  }else{
+    pillSvg(s,315,155,230,28,'var(--green)','rgba(74,222,128,.08)','ps/top muestran estado');
+  }
+}
+
+function drawNetwork(m='ip',b){
+  if(b){document.querySelectorAll('#s8 .tab-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');}
+  const s=clearSvg('net-svg'); if(!s)return;
+  node(s,40,60,140,58,'var(--purple)','rgba(167,139,250,.12)','PC','192.168.1.45');
+  node(s,360,60,140,58,'var(--teal)','rgba(45,212,191,.12)','Router','192.168.1.1');
+  node(s,680,60,140,58,'var(--blue)','rgba(77,168,255,.12)','Internet','8.8.8.8');
+  arrow(s,180,90,360,90,'var(--purple)','LAN');
+  arrow(s,500,90,680,90,'var(--teal)','WAN');
+  let text='';
+  if(m==='ip'){pillSvg(s,85,170,240,30,'var(--teal)','rgba(45,212,191,.08)','ip a / hostname -I');text='<div class="note-title">Paso 1 · Dirección local</div><div class="note-line">Usar <strong>ip a</strong> para ver interfaces, estado UP/DOWN y direcciones IP asignadas.</div>';}
+  if(m==='route'){pillSvg(s,315,170,240,30,'var(--green)','rgba(74,222,128,.08)','ip route');text='<div class="note-title">Paso 2 · Ruta</div><div class="note-line">Usar <strong>ip route</strong> para confirmar gateway predeterminado y redes directamente conectadas.</div>';}
+  if(m==='dns'){pillSvg(s,540,170,240,30,'var(--blue)','rgba(77,168,255,.08)','dig / host');text='<div class="note-title">Paso 3 · DNS</div><div class="note-line">Usar <strong>dig dominio</strong> o <strong>host dominio</strong> para comprobar resolución de nombres.</div>';}
+  if(m==='ports'){pillSvg(s,300,170,260,30,'var(--amber)','rgba(245,158,11,.08)','ss -a / netstat -nutlp');text='<div class="note-title">Paso 4 · Puertos</div><div class="note-line">Usar <strong>ss</strong> o <strong>netstat</strong> para ver sockets y servicios en escucha.</div>';}
+  if(m==='capture'){pillSvg(s,300,170,260,30,'var(--coral)','rgba(251,113,133,.08)','tcpdump -i eth0');text='<div class="note-title">Paso 5 · Captura</div><div class="note-line">Usar <strong>tcpdump</strong> para observar paquetes reales y confirmar si el tráfico sale o entra.</div>';}
+  document.getElementById('net-info').innerHTML=text;
+}
+
+const labs=[
+  ['Inventario del sistema','Ejecutar uname, os-release, hostname, uptime y whoami. Elaborar un resumen técnico del equipo.',`uname -a
+cat /etc/os-release
+hostname
+uptime
+whoami`],
+  ['Explorar /etc','Ingresar a /etc, listar archivos, leer os-release y buscar archivos relacionados con ssh.',`cd /etc
+ls -al
+cat os-release
+find /etc -name "*ssh*"`],
+  ['Detectar consumo de disco','Usar df, du y find para identificar espacio usado y archivos grandes.',`df -h
+du -sh .
+find /home -size +100M`],
+  ['Revisar procesos','Listar procesos, buscar ssh, observar top y explicar PID, usuario y comando.',`ps -ef
+ps -ef | grep ssh
+top`],
+  ['Diagnóstico de red','Ver IP, ruta, DNS, conectividad y puertos abiertos.',`ip a
+ip route
+dig utu.edu.uy
+ping 8.8.8.8
+ss -a`],
+  ['Permisos seguros','Crear archivo, cambiar permisos a 644, 755 y explicar diferencia.',`touch script.sh
+chmod 644 script.sh
+chmod 755 script.sh
+ls -al script.sh`]
+];
+
+function renderLabs(){
+  const g=document.getElementById('lab-grid');
+  if(!g)return;
+  g.innerHTML='';
+  labs.forEach(l=>{
+    const d=document.createElement('div');
+    d.className='lab-card';
+    d.innerHTML=`<h4>${escapeHTML(l[0])}</h4><p>${escapeHTML(l[1])}</p><div class="code-card"><div class="code-head"><span class="code-title">comandos</span><button class="copy-btn" onclick="copyCode(this)">copiar</button></div><pre>${escapeHTML(l[2])}</pre></div>`;
+    g.appendChild(d);
+  });
+}
+
+function copyCode(btn){
+  const p=btn.closest('.code-card').querySelector('pre').innerText;
+  navigator.clipboard?.writeText(p);
+  btn.textContent='copiado';
+  setTimeout(()=>btn.textContent='copiar',1200);
+}
+
+function updateActiveNav(){
+  const sections=document.querySelectorAll('[id^="s"]'),links=document.querySelectorAll('.nav-link');
+  let a=null;
+  sections.forEach(s=>{if(s.getBoundingClientRect().top<=80)a=s.id;});
+  links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+a));
+}
+
+window.addEventListener('scroll',updateActiveNav,{passive:true});
+
+initMap();
+renderTabs();
+renderCommands();
+initSuggestions();
+renderTerminalCommandGroups();
+initFs();
+initPerms();
+drawProcess();
+drawNetwork('ip');
+renderLabs();
+updateActiveNav();
+</script>
+</body>
+</html>
