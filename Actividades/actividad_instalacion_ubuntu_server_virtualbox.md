@@ -541,6 +541,19 @@ Ejecutar:
 sudo reboot
 ```
 
+---
+
+### PARA INSTALAR DIRECTAMENTE DESDE INTERNET
+
+#### (Paso alternativo para usar en VPS o para obviar el uso del CD Virtual)
+```
+sudo add-apt-repository multiverse
+sudo apt update
+sudo apt install virtualbox-guest-utils virtualbox-guest-dkms   
+```
+
+---
+
 ### Paso 7: Verificar instalación
 
 Luego del reinicio, ejecutar:
