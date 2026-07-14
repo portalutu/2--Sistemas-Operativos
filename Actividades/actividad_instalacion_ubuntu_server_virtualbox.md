@@ -549,6 +549,7 @@ sudo reboot
 ```
 sudo add-apt-repository multiverse
 sudo apt update
+sudo apt upgrade (o full-upgrade en los Ubuntu)
 sudo apt install virtualbox-guest-utils virtualbox-guest-dkms   
 ```
 
