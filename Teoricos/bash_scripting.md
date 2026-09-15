@@ -66,16 +66,16 @@ Guarda el siguiente contenido en `fecha_hora.sh`:
 ```bash
 #!/usr/bin/env bash
 
-formato="${1:-%Y-%m-%d %H:%M:%S}"
-momento=$(date "+${formato}")
+FORMATO="${1:-%Y-%m-%d %H:%M:%S}"
+MOMENTO=$(date "+${FORMATO}")
 
-echo "Fecha y hora: ${momento}"
+echo "Fecha y hora: ${MOMENTO}"
 ```
 
 El valor `${1:-...}` usa el primer argumento si fue proporcionado; de lo contrario, usa el formato por defecto. Ejecútalo de estas dos formas:
 
 ```bash
-chmod +x fecha_hora.sh
+chmod +x fecha_hora.sh  
 ./fecha_hora.sh
 ./fecha_hora.sh '%d/%m/%Y - %H:%M'
 ```
@@ -99,7 +99,7 @@ Guarda este script como `informe_sistema.sh`:
 ```bash
 #!/usr/bin/env bash
 
-archivo="${1:-informe_sistema_$(date +%Y%m%d_%H%M%S).txt}"
+ARCHIVO="${1:-informe_sistema_$(date +%Y%m%d_%H%M%S).txt}"
 
 {
   echo "INFORME DEL SISTEMA"
@@ -118,9 +118,9 @@ archivo="${1:-informe_sistema_$(date +%Y%m%d_%H%M%S).txt}"
   echo
   echo "--- Espacio en disco ---"
   df -h
-} > "${archivo}"
+} > "${ARCHIVO}"
 
-echo "Informe creado en: ${archivo}"
+echo "Informe creado en: ${ARCHIVO}"
 ```
 
 Ejecuta `./informe_sistema.sh`. Para elegir el nombre del informe, proporciona una ruta como primer argumento:
@@ -157,15 +157,15 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
-directorio="$1"
+DIRECTORIO="$1"
 
-if [ ! -d "${directorio}" ]; then
-  echo "Error: no existe el directorio: ${directorio}" >&2
+if [ ! -d "${DIRECTORIO}" ]; then
+  echo "Error: no existe el directorio: ${DIRECTORIO}" >&2
   exit 1
 fi
 
-cantidad=$(find "${directorio}" -maxdepth 1 -type f | wc -l)
-echo "Archivos regulares en ${directorio}: ${cantidad}"
+CANTIDAD=$(find "${DIRECTORIO}" -maxdepth 1 -type f | wc -l)
+echo "Archivos regulares en ${DIRECTORIO}: ${CANTIDAD}"
 ```
 
 Prueba con `./contar_archivos.sh /etc`. El texto `>&2` envía mensajes de uso y errores a la salida de error estándar, separándolos de la salida normal del script.
@@ -189,20 +189,20 @@ Guarda el contenido en `listar_logs.sh`:
 ```bash
 #!/usr/bin/env bash
 
-directorio="${1:-.}"
+DIRECTORIO="${1:-.}"
 
-if [ ! -d "${directorio}" ]; then
-  echo "Error: ${directorio} no es un directorio válido." >&2
+if [ ! -d "${DIRECTORIO}" ]; then
+  echo "Error: ${DIRECTORIO} no es un directorio válido." >&2
   exit 1
 fi
 
-encontrados=0
-while IFS= read -r -d '' archivo; do
-  printf '%s\n' "${archivo}"
-  encontrados=$((encontrados + 1))
-done < <(find "${directorio}" -type f -name '*.log' -print0)
+ENCONTRADOS=0
+while IFS= read -r -d '' ARCHIVO; do
+  printf '%s\n' "${ARCHIVO}"
+  ENCONTRADOS=$((ENCONTRADOS + 1))
+done < <(find "${DIRECTORIO}" -type f -name '*.log' -print0)
 
-echo "Total de archivos .log: ${encontrados}"
+echo "Total de archivos .log: ${ENCONTRADOS}"
 ```
 
 Ejecuta `./listar_logs.sh /var/log`. Si no se proporciona una ruta, se examina el directorio actual. La construcción `< <(...)` entrega la salida de `find` al bucle sin crear un archivo temporal.
@@ -228,20 +228,20 @@ Guarda este script como `backup_comprimido.sh`:
 ```bash
 #!/usr/bin/env bash
 
-origen="${1:-}"
-destino="${2:-$HOME/backups}"
+ORIGEN="${1:-}"
+DESTINO="${2:-$HOME/backups}"
 
-if [ -z "${origen}" ] || [ ! -d "${origen}" ]; then
+if [ -z "${ORIGEN}" ] || [ ! -d "${ORIGEN}" ]; then
   echo "Uso: $0 DIRECTORIO_ORIGEN [DIRECTORIO_DESTINO]" >&2
   exit 1
 fi
 
-mkdir -p "${destino}"
-nombre=$(basename "${origen%/}")
+mkdir -p "${DESTINO}"
+nombre=$(basename "${ORIGEN%/}")
 fecha=$(date +%Y%m%d_%H%M%S)
-archivo="${destino}/${nombre}_${fecha}.tar.gz"
+archivo="${DESTINO}/${nombre}_${fecha}.tar.gz"
 
-tar -czf "${archivo}" -C "$(dirname "${origen%/}")" "${nombre}"
+tar -czf "${archivo}" -C "$(dirname "${ORIGEN%/}")" "${nombre}"
 
 echo "Backup creado: ${archivo}"
 echo "Contenido del backup:"
@@ -277,16 +277,16 @@ Guarda este contenido como `limpiar_logs_por_fecha.sh`:
 ```bash
 #!/usr/bin/env bash
 
-directorio="${1:-}"
+DIRECTORIO="${1:-}"
 fecha_limite="${2:-}"
 
-if [ -z "${directorio}" ] || [ -z "${fecha_limite}" ] || [ ! -d "${directorio}" ]; then
+if [ -z "${DIRECTORIO}" ] || [ -z "${fecha_limite}" ] || [ ! -d "${DIRECTORIO}" ]; then
   echo "Uso: $0 DIRECTORIO_LOGS AAAA-MM-DD" >&2
   exit 1
 fi
 
 mapfile -d '' archivos < <(
-  find "${directorio}" -type f -name '*.log' -not -newermt "${fecha_limite}" -print0
+  find "${DIRECTORIO}" -type f -name '*.log' -not -newermt "${fecha_limite}" -print0
 )
 
 if [ "${#archivos[@]}" -eq 0 ]; then
@@ -336,32 +336,32 @@ Guarda este contenido en `limpiar_temporales.sh`:
 ```bash
 #!/usr/bin/env bash
 
-directorio="${1:-}"
-dias="${2:-}"
-modo="${3:-}"
+DIRECTORIO="${1:-}"
+DIAS="${2:-}"
+MODO="${3:-}"
 
-if [ -z "${directorio}" ] || [ -z "${dias}" ] || [ ! -d "${directorio}" ]; then
+if [ -z "${DIRECTORIO}" ] || [ -z "${DIAS}" ] || [ ! -d "${DIRECTORIO}" ]; then
   echo "Uso: $0 DIRECTORIO DIAS [--aplicar]" >&2
   exit 1
 fi
 
-if ! [[ "${dias}" =~ ^[0-9]+$ ]]; then
+if ! [[ "${DIAS}" =~ ^[0-9]+$ ]]; then
   echo "Error: DIAS debe ser un número entero no negativo." >&2
   exit 1
 fi
 
-echo "Archivos temporales con más de ${dias} días:"
-find "${directorio}" -type f \( -name '*.tmp' -o -name '*.temp' \) -mtime "+${dias}" -print
+echo "Archivos temporales con más de ${DIAS} días:"
+find "${DIRECTORIO}" -type f \( -name '*.tmp' -o -name '*.temp' \) -mtime "+${DIAS}" -print
 
-if [ "${modo}" = "--aplicar" ]; then
-  find "${directorio}" -type f \( -name '*.tmp' -o -name '*.temp' \) -mtime "+${dias}" -delete
+if [ "${MODO}" = "--aplicar" ]; then
+  find "${DIRECTORIO}" -type f \( -name '*.tmp' -o -name '*.temp' \) -mtime "+${DIAS}" -delete
   echo "Limpieza aplicada."
 else
   echo "Vista previa finalizada. Para borrar, agrega --aplicar al final."
 fi
 ```
 
-Ejecuta primero el modo de prueba:
+Ejecuta primero el MODO de prueba:
 
 ```bash
 ./limpiar_temporales.sh ~/mi_aplicacion/tmp 14
@@ -397,7 +397,7 @@ Estas opciones no reemplazan las validaciones: un script debe continuar verifica
 
 ### Ejemplo práctico: plantilla reutilizable
 
-Usa esta plantilla como punto de partida para un script que reciba un directorio:
+Usa esta plantilla como punto de partida para un script que reciba un DIRECTORIO:
 
 ```bash
 #!/usr/bin/env bash
@@ -408,14 +408,14 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
-directorio="$1"
+DIRECTORIO="$1"
 
-if [ ! -d "${directorio}" ]; then
-  echo "Error: no existe el directorio: ${directorio}" >&2
+if [ ! -d "${DIRECTORIO}" ]; then
+  echo "Error: no existe el directorio: ${DIRECTORIO}" >&2
   exit 1
 fi
 
-echo "Procesando: ${directorio}"
+echo "Procesando: ${DIRECTORIO}"
 # Agrega aquí la tarea específica.
 ```
 
